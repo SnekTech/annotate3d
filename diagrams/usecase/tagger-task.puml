@@ -1,0 +1,21 @@
+@startuml
+
+left to right direction
+
+标注人员 as tagger
+
+rectangle 任务仪表盘界面 {
+    usecase (查看参与的项目) as view_projects
+    usecase (选择当前项目) as choose_project
+    view_projects ..> choose_project : <<include>>
+    usecase (查看已分配任务) as view_assigned_task
+    usecase (选择未完成任务开始标注) as choose_task
+    usecase (完成标注后切换任务状态至待验证) as complete_task
+}
+
+tagger -- view_projects
+tagger -- view_assigned_task
+tagger -- choose_task
+tagger -- complete_task
+
+@enduml
