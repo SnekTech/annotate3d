@@ -1,9 +1,10 @@
+import AnnotateScene from "./annotate-tool/AnnotateScene.tsx";
 
 function App() {
 
   return (
     <>
-      Hello
+      <AnnotateScene />
     </>
   )
 }
