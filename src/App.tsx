@@ -1,12 +1,14 @@
-import AnnotateScene from "./annotate-tool/AnnotateScene.tsx";
+import { CssBaseline } from "@mui/material";
+import Tool from "./annotate-tool/Tool.tsx";
 
 function App() {
 
-  return (
-    <>
-      <AnnotateScene />
-    </>
-  )
+    return (
+        <>
+            <CssBaseline/>
+            <Tool/>
+        </>
+    )
 }
 
 export default App
