@@ -1,9 +1,10 @@
 import { useGLTF } from "@react-three/drei";
-import { Bone, Mesh, MeshStandardMaterial, SkinnedMesh } from "three";
+import { Bone, MeshStandardMaterial, SkinnedMesh } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { useControls } from "leva";
 
 import { LevaColor } from "./misc.ts";
+import { useRef } from "react";
 
 const HandModelPath = '/hand-rigged.glb'
 const ModelColor: LevaColor = {
@@ -28,17 +29,30 @@ const Hand = () => {
     const mat = materials.Material;
     mat.transparent = true
 
-    const {c} = useControls({c: ModelColor})
-    mat.color.set(c.r, c.g, c.b)
-    mat.opacity = c.a!
+    const { c } = useControls({ c: ModelColor })
+    mat.color.setRGB(c.r, c.g, c.b)
+    if (c.a) mat.opacity = c.a
 
-    const gltfObj = useGLTF(HandModelPath)
-    console.log(gltfObj);
+    const skinnedMeshRef = useRef<any>(null!)
 
-    return <mesh
-        scale={[0.321, 1, 1]}
-        material={mat}
-        geometry={(nodes.hand as Mesh).geometry} />
+    return (
+        <>
+            <group name="Armature" position={[0, -1.252, 0]}>
+                <skinnedMesh
+                    ref={skinnedMeshRef}
+                    name="hand"
+                    geometry={nodes.hand.geometry}
+                    material={materials.Material}
+                    skeleton={nodes.hand.skeleton}
+                    position={[0, 1.252, 0]}
+                    scale={[0.321, 1, 1]}
+                />
+                <primitive object={nodes.Armature_BaseBone} />
+            </group>
+
+            {skinnedMeshRef.current ?? <skeletonHelper args={[nodes.hand]} />}
+        </>
+    )
 }
 
 export default Hand
