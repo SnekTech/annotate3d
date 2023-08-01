@@ -1,8 +1,8 @@
-import { Canvas, useThree } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls } from "@react-three/drei";
 
-import { useRef, useEffect } from "react";
-import { Mesh, Object3D } from "three";
+import { useRef } from "react";
+import { Mesh } from "three";
 import RotateControl from "./RotateControl";
 
 const AnnotateScene = () => {
@@ -20,16 +20,8 @@ const AnnotateScene = () => {
             <meshStandardMaterial color={"blue"} opacity={0.5} transparent/>
         </mesh>
 
-        {/*<PivotControls*/}
-        {/*    matrix={coneMesh.current?.matrix}*/}
-        {/*    disableAxes={true}*/}
-        {/*    disableSliders={true}*/}
-        {/*    autoTransform={false}*/}
-        {/*    onDrag={() => coneMesh.current?.matrix.copy(mat)}*/}
-        {/*    />*/}
-
         <RotateControl type="transform" target={box} />
-        
+        {/* <TransformControls object={box} /> */}
 
         <GizmoHelper>
             <GizmoViewport />
