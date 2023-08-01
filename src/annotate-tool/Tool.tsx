@@ -2,6 +2,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import AnnotateScene from "./AnnotateScene.tsx";
 import { Button, Stack, Paper } from "@mui/material";
 import FramesCatalog from "./FramesCatalogue.tsx";
+import FrameSkipper from "./FrameSkipper.tsx";
 
 const Tool = () => {
     return (
@@ -16,6 +17,8 @@ const Tool = () => {
                     </Stack>
 
                     <FramesCatalog totalFrameCount={100} />
+
+                    <FrameSkipper />
                 </Paper>
             </Grid>
         </Grid>
