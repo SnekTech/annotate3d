@@ -1,16 +1,20 @@
-import { Canvas } from "@react-three/fiber";
-import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls } from "@react-three/drei";
+import { Canvas, useThree } from "@react-three/fiber";
+import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls, useCamera } from "@react-three/drei";
 
-import { useRef } from "react";
-import { Mesh } from "three";
+import { useRef, useEffect } from "react";
+import { Mesh, Color } from "three";
 import RotateControl from "./RotateControl";
+import { css } from "@emotion/react";
 
 const AnnotateScene = () => {
 
     const box = useRef<Mesh>(null!)
 
+    const canvasStyle = css({
+        backgroundColor: 'lightgray',
+    })
 
-    return <Canvas>
+    return <Canvas css={canvasStyle} >
         <OrbitControls makeDefault />
         <ambientLight intensity={0.1} />
         <directionalLight position={[0, 0, 5]} />

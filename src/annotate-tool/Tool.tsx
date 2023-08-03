@@ -1,27 +1,20 @@
-import Grid from "@mui/material/Unstable_Grid2";
+import { Stack } from '@mui/material'
+
 import AnnotateScene from "./AnnotateScene.tsx";
-import { Button, Stack, Paper } from "@mui/material";
-import FramesCatalog from "./FramesCatalogue.tsx";
 import FrameSkipper from "./FrameSkipper.tsx";
+import ControlPanel from './ControlPanel.tsx';
 
 const Tool = () => {
     return (
-        <Grid container height={'720px'}>
-            <Grid xs={7}>
+        <Stack direction={'row'}>
+
+            <div css={{ height: '720px', minWidth: '900px' }}>
                 <AnnotateScene />
-            </Grid>
-            <Grid xs={5}>
-                <Paper sx={{backgroundColor: 'primary.light'}}>
-                    <Stack padding={'1rem'}>
-                        <Button variant="contained">Hello MUI</Button>
-                    </Stack>
+                <FrameSkipper />
+            </div>
 
-                    <FramesCatalog totalFrameCount={100} />
-
-                    <FrameSkipper />
-                </Paper>
-            </Grid>
-        </Grid>
+            <ControlPanel />
+        </Stack>
     )
 }
 

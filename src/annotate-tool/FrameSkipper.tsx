@@ -1,5 +1,5 @@
 import {ButtonGroup, IconButton} from '@mui/material'
-import { SkipPrevious, SkipNext, PlayArrow, Pause, FastForward, FastRewind } from '@mui/icons-material'
+import { PlayArrow, Pause, NavigateBefore, NavigateNext, FirstPage, LastPage } from '@mui/icons-material'
 
 type FrameSkipperProps = {
     isPlaying?: boolean
@@ -12,19 +12,19 @@ const FrameSkipper = (props: FrameSkipperProps) => {
     return (
         <ButtonGroup>
             <IconButton>
-                <FastRewind />
+                <FirstPage />
             </IconButton>
             <IconButton>
-                <SkipPrevious />
+                <NavigateBefore />
             </IconButton>
             <IconButton>
                 {isPlaying ? <Pause /> : <PlayArrow />}
             </IconButton>
             <IconButton>
-                <SkipNext />
+                <NavigateNext />
             </IconButton>
             <IconButton>
-                <FastForward />
+                <LastPage />
             </IconButton>
         </ButtonGroup>
     )
