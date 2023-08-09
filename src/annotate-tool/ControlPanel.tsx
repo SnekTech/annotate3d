@@ -6,7 +6,8 @@ const ControlPanel = () => {
 
     const ctrlPanelStyle = css({
         minWidth: '300px',
-        maxWidth: '400px'
+        maxWidth: '400px',
+        padding: '1rem',
     })
 
     return (

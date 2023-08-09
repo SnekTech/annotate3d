@@ -1,8 +1,8 @@
 import { Stack } from '@mui/material'
 
 import AnnotateScene from "./AnnotateScene.tsx";
-import FrameSkipper from "./FrameSkipper.tsx";
 import ControlPanel from './ControlPanel.tsx';
+import ToolBar from './ToolBar.tsx';
 
 const Tool = () => {
     return (
@@ -10,7 +10,7 @@ const Tool = () => {
 
             <div css={{ height: '720px', minWidth: '900px' }}>
                 <AnnotateScene />
-                <FrameSkipper />
+                <ToolBar />
             </div>
 
             <ControlPanel />

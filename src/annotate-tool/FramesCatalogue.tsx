@@ -1,37 +1,58 @@
-import {css} from '@emotion/react'
-import { Button, Stack } from '@mui/material'
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import { css } from '@emotion/react'
+import {
+    Button,
+    Stack,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
+    Typography,
+    Badge
+} from '@mui/material'
 
 type FramesCatalogProps = {
     totalFrameCount: number
-    lineCount?: number
 }
 
 const FramesCatalog = (props: FramesCatalogProps) => {
     const {
-        lineCount = 10,
         totalFrameCount: totalPageCount
     } = props
 
-    const containerStyle = css({
-        maxHeight: '10rem',
-        minWidth: '300px',
-        overflow: 'scroll',
-        color: 'white',
-        padding: '0 1rem 0'
-    })
-
     return (
+        <>
+            <div>
+                <Typography>
+                    帧列表
+                </Typography>
+            </div>
             <Stack
-            maxHeight={'10rem'}
-            overflow={'scroll'}
+                maxHeight={'10rem'}
+                overflow={'scroll'}
                 direction={'row'}
                 flexWrap={'wrap'}
+                paddingTop={'0.5rem'}
             >
+
                 {[...Array(totalPageCount)].map((_, i) => (
-                        <Button key={i} css={{minWidth: 0}}>{i + 1}</Button>
+                    i != 2 ?
+                        <Button
+                            key={i}
+                            css={{ minWidth: 0 }}
+                        >{i + 1}</Button>
+                        :
+                        <Badge
+                            variant='dot' 
+                            key={i}
+                            color='info'
+                            >
+                            <Button
+                                css={{ minWidth: 0 }}
+                            >{i + 1}</Button>
+
+                        </Badge>
                 ))}
             </Stack>
+        </>
     )
 }
 
