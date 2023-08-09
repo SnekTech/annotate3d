@@ -1,6 +1,7 @@
 import { Stack } from "@mui/material"
 import {css} from "@emotion/react"
-import FramesCatalog from "./FramesCatalogue"
+import FramesCatalog from "./controls/FramesCatalogue"
+import BoneSelect from "./controls/BoneSelect"
 
 const ControlPanel = () => {
 
@@ -12,7 +13,8 @@ const ControlPanel = () => {
 
     return (
         <Stack css={ctrlPanelStyle}>
-            <FramesCatalog totalFrameCount={100} />
+            {/* <FramesCatalog totalFrameCount={100} /> */}
+            <BoneSelect />
         </Stack>
     )
 }
