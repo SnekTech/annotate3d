@@ -1,9 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { GizmoHelper, GizmoViewport, OrbitControls, Html } from "@react-three/drei";
 import { useControls } from "leva";
-import { useRef } from "react";
-import { Mesh } from "three";
-import { Perf } from 'r3f-perf'
 import { css } from "@emotion/react";
 import { Xbot } from "./Xbot";
 
@@ -20,8 +17,6 @@ function Annotation({ children, ...props }: any) {
 }
 
 const AnnotateScene = () => {
-
-    const box = useRef<Mesh>(null!)
 
     const { pos } = useControls({
         pos: { x: 0, y: 0, z: 0 }
@@ -46,7 +41,7 @@ const AnnotateScene = () => {
         </mesh>
 
         <RotateControl type="transform" target={box} /> */}
-        <Perf position='top-left' />
+        {/*{showPerformance ?? <Perf position='bottom-left' />}*/}
         <GizmoHelper>
             <GizmoViewport />
         </GizmoHelper>
