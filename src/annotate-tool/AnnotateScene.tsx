@@ -7,7 +7,9 @@ import { Xbot } from "./Xbot";
 
 function Image() {
     const texture = useTexture('test-assets/frames/image-005.png')
-    const {imageScale} = useControls({imageScale: {value: 50, min: 10, max: 100}})
+    const {imageScale} = useControls({
+        imageScale: {value: 80, min: 10, max: 100},
+    })
 
     return (
         <mesh scale={imageScale} position-z={-100}>
@@ -24,7 +26,7 @@ const AnnotateScene = () => {
     })
 
     return <Canvas css={canvasStyle}>
-        <OrbitControls makeDefault/>
+        <OrbitControls makeDefault enableRotate={false}/>
         <ambientLight intensity={0.1}/>
         <directionalLight position={[0, 0, 5]}/>
 
