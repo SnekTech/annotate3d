@@ -1,11 +1,6 @@
-import { css } from '@emotion/react'
 import {
     Button,
     Stack,
-    Accordion,
-    AccordionSummary,
-    AccordionDetails,
-    Typography,
     Badge
 } from '@mui/material'
 
@@ -20,11 +15,6 @@ const FramesCatalog = (props: FramesCatalogProps) => {
 
     return (
         <>
-            <div>
-                <Typography>
-                    帧列表
-                </Typography>
-            </div>
             <Stack
                 maxHeight={'10rem'}
                 overflow={'scroll'}
