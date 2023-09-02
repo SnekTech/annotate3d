@@ -6,7 +6,9 @@ import { BoneNames } from "../misc.ts";
 
 const BoneSelect = () => {
     return (
-        <List>
+        <List
+
+        >
             {BoneNames.map((boneName, i) => (
                 <ListItem disablePadding key={i}>
                     <Checkbox/>

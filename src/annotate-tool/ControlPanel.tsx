@@ -1,7 +1,6 @@
 import { Stack, Accordion, AccordionSummary, AccordionDetails } from "@mui/material"
 import { css } from "@emotion/react"
 import FramesCatalog from "./controls/FramesCatalogue"
-import BoneSelect from "./controls/BoneSelect"
 import { ExpandMore } from "@mui/icons-material";
 import BoneSwitch from "./controls/BoneSwitch.tsx";
 
