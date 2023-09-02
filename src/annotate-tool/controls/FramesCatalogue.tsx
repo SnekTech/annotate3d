@@ -3,6 +3,7 @@ import {
     Stack,
     Badge
 } from '@mui/material'
+import { useState } from "react";
 
 type FramesCatalogProps = {
     totalFrameCount: number
@@ -12,6 +13,8 @@ const FramesCatalog = (props: FramesCatalogProps) => {
     const {
         totalFrameCount: totalPageCount
     } = props
+
+    const [selectedIndex, setSelectedIndex] = useState(0)
 
     return (
         <>
@@ -28,6 +31,8 @@ const FramesCatalog = (props: FramesCatalogProps) => {
                         <Button
                             key={i}
                             css={{ minWidth: 0 }}
+                            color={selectedIndex == i ? "secondary" : "primary"}
+                            onClick={() => setSelectedIndex(i)}
                         >{i + 1}</Button>
                         :
                         <Badge
