@@ -3,6 +3,23 @@ import { css } from "@emotion/react"
 import FramesCatalog from "./controls/FramesCatalogue"
 import { ExpandMore } from "@mui/icons-material";
 import BoneSwitch from "./controls/BoneSwitch.tsx";
+import { FC } from "react";
+import AnnotateModeSwitch from "./controls/AnnotateModeSwitch.tsx";
+
+function wrapWithAccordion<Props>(title: string, component: FC<Props>, props: Props, defaultExpanded = true) {
+    return (
+        <Accordion defaultExpanded={defaultExpanded}>
+            <AccordionSummary
+                expandIcon={<ExpandMore />}
+            >
+                {title}
+            </AccordionSummary>
+            <AccordionDetails>
+                {component(props)}
+            </AccordionDetails>
+        </Accordion>
+    )
+}
 
 const ControlPanel = () => {
 
@@ -14,23 +31,9 @@ const ControlPanel = () => {
 
     return (
         <Stack css={ctrlPanelStyle}>
-            <Accordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMore />}
-                >帧列表</AccordionSummary>
-                <AccordionDetails>
-                    <FramesCatalog totalFrameCount={100}/>
-                </AccordionDetails>
-            </Accordion>
-
-            <Accordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMore />}
-                >待标注骨骼</AccordionSummary>
-                <AccordionDetails>
-                    <BoneSwitch />
-                </AccordionDetails>
-            </Accordion>
+            {wrapWithAccordion("帧列表", FramesCatalog, {totalFrameCount: 100})}
+            {wrapWithAccordion("控件模式", AnnotateModeSwitch, {})}
+            {wrapWithAccordion("待标注骨骼", BoneSwitch, {}, false)}
         </Stack>
     )
 }

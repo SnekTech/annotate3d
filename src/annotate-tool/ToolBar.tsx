@@ -1,5 +1,3 @@
-import {Typography} from '@mui/material'
-
 import FrameSkipper from "./FrameSkipper"
 
 const ToolBar = () => {

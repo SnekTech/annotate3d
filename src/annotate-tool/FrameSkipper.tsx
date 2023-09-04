@@ -1,5 +1,12 @@
-import {ButtonGroup, IconButton} from '@mui/material'
-import { PlayArrow, Pause, NavigateBefore, NavigateNext, FirstPage, LastPage } from '@mui/icons-material'
+import { ButtonGroup, IconButton } from '@mui/material'
+import {
+    PlayArrow,
+    Pause,
+    NavigateBefore,
+    NavigateNext,
+    FirstPage,
+    LastPage,
+} from '@mui/icons-material'
 
 type FrameSkipperProps = {
     isPlaying?: boolean
