@@ -1,9 +1,11 @@
+import { Playground } from "./Playground"
 
 function App() {
 
     return (
         <>
-            Hello World!
+            <Playground />
+
         </>
     )
 }
