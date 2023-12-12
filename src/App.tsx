@@ -1,8 +1,8 @@
 import { useState } from 'react'
+import {Outlet} from '@tanstack/react-router'
 
 import { NavDrawer } from './layout/NavDrawer'
 import { HeaderBar } from './layout/HeaderBar'
-import { Playground } from "./Playground"
 
 function App() {
 
@@ -19,8 +19,7 @@ function App() {
                 onClose={toggleDrawer(false)}
             />
 
-            <Playground />
-
+            <Outlet />
         </>
     )
 }
