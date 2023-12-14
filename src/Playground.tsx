@@ -1,4 +1,5 @@
-import { Button, Container } from "@mui/material";
+import { Container } from "@mui/material";
+import { Canvas } from "@react-three/fiber";
 
 export function Playground() {
     
@@ -6,7 +7,14 @@ export function Playground() {
     return (
         <>
             <Container maxWidth="sm" >
-                <Button variant="contained">Hello World</Button>
+                <Canvas>
+                    <ambientLight intensity={0.1} />
+                    <directionalLight color={"red"} position={[0, 0, 5]} />
+                    <mesh>
+                        <boxGeometry />
+                        <meshStandardMaterial />
+                    </mesh>
+                </Canvas>
             </Container>
         </>
     )
