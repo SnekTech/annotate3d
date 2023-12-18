@@ -15,6 +15,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.14.19",
     "@mui/material": "^5.14.19",
+    "@react-three/drei": "^9.92.1",
     "@react-three/fiber": "^8.15.12",
     "@tanstack/react-router": "^0.0.1-beta.240",
     "@types/three": "^0.159.0",
