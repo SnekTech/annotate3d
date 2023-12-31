@@ -1,9 +1,10 @@
-import { Container } from "@mui/material";
-import { OrbitControls, useGLTF } from "@react-three/drei";
-import { Canvas, useThree } from "@react-three/fiber";
-import { Suspense, useEffect } from 'react'
-import { SkinnedMesh, Object3D, Bone, MeshStandardMaterial } from "three";
+import { Container, Typography } from "@mui/material";
+import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls, useGLTF } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { Bone, Object3D, SkinnedMesh } from "three";
 import { GLTF } from "three/examples/jsm/Addons.js";
+import { BoneList } from "./label-tool/BoneList.tsx";
+import { Suspense, useState } from "react";
 
 
 // const gl = useGLTF('/hand-rigged.glb')
@@ -19,43 +20,75 @@ type HandGLTF = GLTF & {
     nodes: GLTFNodes
 }
 
-function Hand() {
-    const gltfData = useGLTF('/hand-rigged.glb') as unknown as HandGLTF
-    console.log(gltfData);
-    
-    const handGeometry = gltfData.nodes.hand.geometry
-    const bone = gltfData.nodes.Armature_BaseBone
+type HandProps = {
+    skinnedMesh: SkinnedMesh
+    baseBone: Bone
+}
+
+function Hand(props: HandProps) {
+
+    const {skeleton, geometry} = props.skinnedMesh
 
     return (
         <>
-        <mesh 
-            geometry={handGeometry}
-            scale={[0.321, 1, 1]}
-        >
-            <meshStandardMaterial />
-            <primitive object={bone} />
-        </mesh>
+            <skinnedMesh
+                geometry={geometry}
+                skeleton={skeleton}
+                // scale={[0.321, 1, 1]}
+            >
+                <primitive object={props.baseBone}/>
+                <meshStandardMaterial color={'hotpink'}/>
+            </skinnedMesh>
         </>
     )
 }
 
 export function Playground() {
 
+    const gltfData = useGLTF('/hand-rigged.glb') as unknown as HandGLTF
+    console.log(gltfData.nodes);
 
+    const handSkinnedMesh = gltfData.nodes.hand
+    const bones = handSkinnedMesh.skeleton.bones
+    if (bones.length <= 0)
+        throw new Error('model has no bones')
+
+    const [activeBone, setActiveBone] = useState(bones[0])
+
+    const handleChooseBone = (bone: Bone) => {
+        setActiveBone(bone)
+    }
 
     return (
         <>
-            <Container maxWidth="md" sx={{height: 400}}>
-                <Canvas css={{backgroundColor: 'grey'}}>
-                    <ambientLight intensity={0.1} />
-                    <directionalLight color={"red"} position={[0, 0, 5]} />
+            <Suspense fallback={'f'}>
+                <Container maxWidth="md" sx={{height: 400}}>
+                    <Canvas css={{backgroundColor: 'grey'}}>
+                        <ambientLight intensity={0.1}/>
+                        <directionalLight color={"red"} position={[0, 0, 5]}/>
 
-                    <OrbitControls makeDefault />
-                    <Suspense fallback={'loading'}>
-                        <Hand />
-                    </Suspense>
-                </Canvas>
-            </Container>
+                        <OrbitControls makeDefault/>
+
+
+                        <Hand
+                            skinnedMesh={handSkinnedMesh}
+                            baseBone={gltfData.nodes.Armature_BaseBone}
+                        />
+
+                        <TransformControls
+                            object={activeBone}
+                            mode={'rotate'}
+                        />
+
+                        <GizmoHelper>
+                            <GizmoViewport/>
+                        </GizmoHelper>
+
+                    </Canvas>
+                    <Typography>{activeBone.name}</Typography>
+                    <BoneList bones={bones} onChoose={handleChooseBone}/>
+                </Container>
+            </Suspense>
         </>
     )
 }
