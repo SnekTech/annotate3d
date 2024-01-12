@@ -1,25 +1,15 @@
-import { useState } from 'react'
-import {Outlet} from '@tanstack/react-router'
-
-import { NavDrawer } from './layout/NavDrawer'
-import { HeaderBar } from './layout/HeaderBar'
+import { Outlet } from '@tanstack/react-router'
+import { HeaderBar } from "./layout/HeaderBar.tsx";
+import { Nav } from "./layout/Nav.tsx";
 
 function App() {
-
-    const [drawerOpen, setDrawerOpen] = useState(false)
-
-    const toggleDrawer = (open: boolean) => () => setDrawerOpen(open)
-
     return (
         <>
-            <HeaderBar onMenuIconClick={toggleDrawer(true)}/>
+            <HeaderBar/>
 
-            <NavDrawer
-                open={drawerOpen}
-                onClose={toggleDrawer(false)}
-            />
+            <Nav/>
 
-            <Outlet />
+            <Outlet/>
         </>
     )
 }

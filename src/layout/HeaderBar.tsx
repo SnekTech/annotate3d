@@ -1,36 +1,17 @@
-import { AppBar, Toolbar, IconButton, Typography, Button } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu'
+import { Box, Button, ButtonGroup, Flex, Heading, Spacer } from "@chakra-ui/react";
 
-
-interface HeaderBarProps {
-    onMenuIconClick: () => void
-}
-
-export function HeaderBar(props: HeaderBarProps) {
-
-    const {onMenuIconClick} = props
+export function HeaderBar() {
 
     return (
-        <>
-            <AppBar position='static'>
-                <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                        onClick={onMenuIconClick}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant='h6' component='div'
-                        sx={{ flexGrow: 1 }}>
-                        Getting r3f
-                    </Typography>
-                    <Button color="inherit">Login</Button>
-                </Toolbar>
-            </AppBar>
-        </>
+        <Flex alignItems={'center'} p={'2'}>
+            <Box p={'2'}>
+                <Heading size={'lg'}>Label3D v2</Heading>
+            </Box>
+            <Spacer />
+            <ButtonGroup>
+                <Button colorScheme={'teal'}>Sign Up</Button>
+                <Button colorScheme={'teal'}>Log in</Button>
+            </ButtonGroup>
+        </Flex>
     )
 }

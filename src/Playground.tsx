@@ -1,10 +1,10 @@
-import { Container, Typography } from "@mui/material";
 import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls, useGLTF, useHelper } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Bone, Object3D, SkeletonHelper, SkinnedMesh } from "three";
 import { GLTF } from "three/examples/jsm/Addons.js";
 import { BoneList } from "./label-tool/BoneList.tsx";
-import { Suspense, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { Box, Text } from "@chakra-ui/react";
 
 
 // const gl = useGLTF('/hand-rigged.glb')
@@ -64,34 +64,32 @@ export function Playground() {
 
     return (
         <>
-            <Suspense fallback={'f'}>
-                <Container maxWidth="md" sx={{height: 400}}>
-                    <Canvas css={{backgroundColor: 'grey'}}>
-                        <ambientLight intensity={0.1}/>
-                        <directionalLight color={"red"} position={[0, 0, 5]}/>
+            <Box maxWidth="md" height={'400px'}>
+                <Canvas>
+                    <ambientLight intensity={0.1}/>
+                    <directionalLight color={"red"} position={[0, 0, 5]}/>
 
-                        <OrbitControls makeDefault/>
+                    <OrbitControls makeDefault/>
 
 
-                        <Hand
-                            skinnedMesh={handSkinnedMesh}
-                            baseBone={gltfData.nodes.Armature_BaseBone}
-                        />
+                    <Hand
+                        skinnedMesh={handSkinnedMesh}
+                        baseBone={gltfData.nodes.Armature_BaseBone}
+                    />
 
-                        <TransformControls
-                            object={activeBone}
-                            mode={'rotate'}
-                        />
+                    <TransformControls
+                        object={activeBone}
+                        mode={'rotate'}
+                    />
 
-                        <GizmoHelper>
-                            <GizmoViewport/>
-                        </GizmoHelper>
+                    <GizmoHelper>
+                        <GizmoViewport/>
+                    </GizmoHelper>
 
-                    </Canvas>
-                    <Typography>{activeBone.name}</Typography>
-                    <BoneList bones={bones} onChoose={handleChooseBone}/>
-                </Container>
-            </Suspense>
+                </Canvas>
+                <Text>{activeBone.name}</Text>
+                <BoneList bones={bones} onChoose={handleChooseBone}/>
+            </Box>
         </>
     )
 }

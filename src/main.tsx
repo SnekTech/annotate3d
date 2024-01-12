@@ -1,32 +1,25 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import CssBaseline from '@mui/material/CssBaseline'
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-
-import {RouterProvider} from '@tanstack/react-router'
-
-
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import { RouterProvider } from '@tanstack/react-router'
 
 import './index.css'
 import { router } from './routes.tsx'
+import { ChakraProvider, ColorModeScript, extendTheme, ThemeConfig } from "@chakra-ui/react";
 
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark'
-    }
-})
+const themeConfig: ThemeConfig = {
+    initialColorMode: 'dark',
+    useSystemColorMode: false
+}
+const myTheme = extendTheme({config: themeConfig})
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
-        <ThemeProvider theme={darkTheme}>
-
-            <CssBaseline />
-            <RouterProvider router={router} />
-        </ThemeProvider>
-    </React.StrictMode>
+    <>
+        <ColorModeScript initialColorMode={myTheme.config.initialColorMode} />
+        <React.StrictMode>
+            <ChakraProvider theme={myTheme}>
+                <RouterProvider router={router}/>
+            </ChakraProvider>
+        </React.StrictMode>
+    </>
 )

@@ -1,5 +1,5 @@
 import { Bone } from "three";
-import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { Button, ListItem, UnorderedList } from "@chakra-ui/react";
 
 type BoneListProps = {
     bones: Bone[]
@@ -12,18 +12,18 @@ export function BoneList(props: BoneListProps) {
 
     return (
         <>
-            <List>
+            <UnorderedList styleType={'none'} spacing={3}>
                 {bones.map(bone => {
                     const boneName = bone.name
                     return (
                         <ListItem key={boneName}>
-                            <ListItemButton onClick={() => onChoose(bone)}>
-                                <ListItemText primary={boneName}/>
-                            </ListItemButton>
+                            <Button onClick={() => onChoose(bone)}>
+                                {boneName}
+                            </Button>
                         </ListItem>
                     )
                 })}
-            </List>
+            </UnorderedList>
         </>
     )
 }
