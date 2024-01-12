@@ -1,10 +1,10 @@
 import { Container, Typography } from "@mui/material";
-import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls, useGLTF } from "@react-three/drei";
+import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls, useGLTF, useHelper } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Bone, Object3D, SkinnedMesh } from "three";
+import { Bone, Object3D, SkeletonHelper, SkinnedMesh } from "three";
 import { GLTF } from "three/examples/jsm/Addons.js";
 import { BoneList } from "./label-tool/BoneList.tsx";
-import { Suspense, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 
 
 // const gl = useGLTF('/hand-rigged.glb')
@@ -27,11 +27,15 @@ type HandProps = {
 
 function Hand(props: HandProps) {
 
+    const handMeshRef = useRef<SkinnedMesh>(null!)
+    useHelper(handMeshRef, SkeletonHelper)
+
     const {skeleton, geometry} = props.skinnedMesh
 
     return (
         <>
             <skinnedMesh
+                ref={handMeshRef}
                 geometry={geometry}
                 skeleton={skeleton}
                 // scale={[0.321, 1, 1]}
@@ -46,7 +50,6 @@ function Hand(props: HandProps) {
 export function Playground() {
 
     const gltfData = useGLTF('/hand-rigged.glb') as unknown as HandGLTF
-    console.log(gltfData.nodes);
 
     const handSkinnedMesh = gltfData.nodes.hand
     const bones = handSkinnedMesh.skeleton.bones
