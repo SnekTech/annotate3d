@@ -1,8 +1,7 @@
 import { useHelper } from "@react-three/drei";
 import { Bone, SkeletonHelper, SkinnedMesh } from "three";
 import { ForwardedRef, forwardRef, Suspense, useImperativeHandle, useRef } from "react";
-import { Pose } from "../common.ts";
-import { useHandModel } from "../hooks/UseHandModel.tsx";
+import { getPose, updatePose, useHandModel, Pose } from "./ModelUtils.ts";
 
 
 export type HandModelMethods = {
@@ -10,6 +9,8 @@ export type HandModelMethods = {
     getPose(): Pose
     updatePose(newPose: Pose): void
 }
+
+
 
 function Hand(_props: unknown, ref: ForwardedRef<HandModelMethods>) {
 
@@ -25,12 +26,11 @@ function Hand(_props: unknown, ref: ForwardedRef<HandModelMethods>) {
             },
             getPose(): Pose {
                 console.log('getting pose')
-                return {
-                    root: [0, 0, 0, 1]
-                }
+                return getPose(handMeshRef.current)
             },
             updatePose(newPose: Pose) {
                 console.log('updating pose: \n', newPose)
+                updatePose(handMeshRef.current, newPose)
             }
         }
     })

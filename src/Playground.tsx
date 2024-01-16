@@ -5,11 +5,11 @@ import { BoneList } from "./label-tool/BoneList.tsx";
 import { useRef, useState } from "react";
 import { Box, Button, Text } from "@chakra-ui/react";
 import { HandModel, HandModelMethods } from "./label-tool/Hand.tsx";
-import { useHandModel } from "./hooks/UseHandModel.tsx";
+import { useHandModel } from "./label-tool/ModelUtils.ts";
 
 export function Playground() {
 
-    const {bones} = useHandModel()
+    const {bones, originalPose} = useHandModel()
 
     const [activeBone, setActiveBone] = useState<Bone>(bones[0])
 
@@ -22,6 +22,10 @@ export function Playground() {
     function handleCalculatePose() {
         const pose = handModelRef.current.getPose()
         console.log(pose);
+    }
+
+    function resetPose() {
+        handModelRef.current.updatePose(originalPose)
     }
 
     return (
@@ -48,6 +52,7 @@ export function Playground() {
                 </Canvas>
                 <Text>{activeBone.name}</Text>
                 <Button onClick={handleCalculatePose}>Calc</Button>
+                <Button onClick={resetPose}>Reset Pose</Button>
                 <BoneList bones={bones} onChoose={handleChooseBone}/>
             </Box>
         </>
