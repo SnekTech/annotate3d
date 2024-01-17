@@ -4,14 +4,15 @@ import { GLTF } from "three/examples/jsm/Addons.js";
 import { useMemo } from "react";
 
 
-export type MyQuaternion = [x: number, y: number, z: number, w: number]
+export type MyQuaternion = [ x: number, y: number, z: number, w: number ]
 export type Pose = Record<string, MyQuaternion>
 
 export function toMyQuaternion(q: Quaternion): MyQuaternion {
-    return [q.x, q.y, q.z, q.w]
+    return [ q.x, q.y, q.z, q.w ]
 }
+
 export function toQuaternion(q: MyQuaternion): Quaternion {
-    const [x, y, z, w] = q
+    const [ x, y, z, w ] = q
     return new Quaternion(x, y, z, w)
 }
 
@@ -54,12 +55,10 @@ export function useHandModel() {
     if (bones.length <= 0)
         throw new Error('model has no bones')
 
-    const originalPose: Pose = useMemo(() => getPose(skinnedMesh), [skinnedMesh])
+    const originalPose: Pose = useMemo(() => getPose(skinnedMesh), [ skinnedMesh ])
 
     return {
-        skinnedMesh,
-        skeleton: skinnedMesh.skeleton,
-        geometry: skinnedMesh.geometry,
+        model: skinnedMesh,
         bones: skinnedMesh.skeleton.bones,
         originalPose
     }

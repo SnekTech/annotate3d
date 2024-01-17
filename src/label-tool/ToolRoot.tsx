@@ -1,16 +1,14 @@
 import { Bone } from "three";
 import { BoneList } from "./BoneList.tsx";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Box, Button, Text } from "@chakra-ui/react";
 import { HandModelMethods } from "./Hand.tsx";
-import { useHandModel } from "./ModelUtils.ts";
 import { ToolCanvas } from "./ToolCanvas.tsx";
+import { useToolState } from "./ToolState.ts";
 
-export function LabelTool() {
+export function ToolRoot() {
 
-    const {skinnedMesh, bones, originalPose} = useHandModel()
-
-    const [activeBone, setActiveBone] = useState<Bone>(bones[0])
+    const { activeBone, setActiveBone, bones } = useToolState()
 
     const handleChooseBone = (bone: Bone) => {
         setActiveBone(bone)
@@ -24,15 +22,15 @@ export function LabelTool() {
     }
 
     function resetPose() {
-        handModelRef.current.updatePose(originalPose)
+        handModelRef.current.resetPose()
     }
 
     return (
         <>
             <Box maxWidth="md" height={'400px'}>
-                <ToolCanvas modelSkinnedMesh={skinnedMesh} modelMethodsRef={handModelRef} activeBone={activeBone} />
+                <ToolCanvas modelMethodsRef={handModelRef}/>
 
-                <Text>{activeBone.name}</Text>
+                <Text>{activeBone?.name}</Text>
                 <Button onClick={handleCalculatePose}>Calc</Button>
                 <Button onClick={resetPose}>Reset Pose</Button>
                 <BoneList bones={bones} onChoose={handleChooseBone}/>
