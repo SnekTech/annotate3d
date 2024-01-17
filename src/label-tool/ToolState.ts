@@ -2,31 +2,29 @@ import { Bone, SkinnedMesh } from "three";
 import { Pose, updatePose } from "./ModelUtils.ts";
 import { create } from "zustand";
 
-interface ToolState {
+interface State {
     currentModel?: SkinnedMesh
-
-    setCurrentModel(skinnedMesh: SkinnedMesh): void
-
     originalPose?: Pose
+    pose?: Pose
+    bones: Bone[]
+    activeBone?: Bone
+}
+
+interface Action {
+    setCurrentModel(skinnedMesh: SkinnedMesh): void
 
     setOriginalPose(pose: Pose): void
 
-    pose?: Pose
-
     setPose(newPose: Pose): void
-    resetPose(): void
 
-    bones: Bone[]
+    resetPose(): void
 
     setBones(bones: Bone[]): void
 
-    activeBone?: Bone
-
     setActiveBone(bone: Bone): void
-
 }
 
-export const useToolState = create<ToolState>()(set => {
+export const useToolState = create<State & Action>()(set => {
 
     return {
         setCurrentModel(model: SkinnedMesh) {
