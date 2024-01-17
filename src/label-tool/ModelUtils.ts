@@ -62,5 +62,4 @@ export function useHandModel() {
         bones: skinnedMesh.skeleton.bones,
         originalPose
     }
-
 }

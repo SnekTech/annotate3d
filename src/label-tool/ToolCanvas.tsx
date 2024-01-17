@@ -1,19 +1,15 @@
 import { Canvas } from "@react-three/fiber";
 import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls } from "@react-three/drei";
-import { HandModel, HandModelMethods } from "./Hand.tsx";
-import { MutableRefObject, useEffect } from "react";
+import { HandModel } from "./Hand.tsx";
+import { useEffect } from "react";
 import { useToolState } from "./ToolState.ts";
-import { useHandModel } from "./ModelUtils.ts";
+import { getPose, useHandModel } from "./ModelUtils.ts";
 
-type ToolCanvasProps = {
-    modelMethodsRef: MutableRefObject<HandModelMethods>
-}
 
-export function ToolCanvas(props: ToolCanvasProps) {
-    const { modelMethodsRef } = props
+export function ToolCanvas() {
     const { model, bones, originalPose, } = useHandModel()
 
-    const { activeBone, setActiveBone, setCurrentModel, setOriginalPose, setPose, setBones } = useToolState()
+    const { activeBone, currentModel, setActiveBone, setCurrentModel, setOriginalPose, setPose, setBones } = useToolState()
 
     // model-related state can only be initialized in the ThreeJS canvas
     useEffect(() => {
@@ -25,9 +21,9 @@ export function ToolCanvas(props: ToolCanvasProps) {
     }, [ bones, model, originalPose, setActiveBone, setBones, setCurrentModel, setOriginalPose, setPose ])
 
     function handlePoseChange() {
-        if (!modelMethodsRef.current) return
+        if (!currentModel) return
 
-        setPose(modelMethodsRef.current.getPose())
+        setPose(getPose(currentModel))
     }
 
     return (
@@ -37,7 +33,7 @@ export function ToolCanvas(props: ToolCanvasProps) {
             <OrbitControls makeDefault/>
 
 
-            <HandModel skinnedMesh={model} ref={modelMethodsRef}/>
+            <HandModel skinnedMesh={model}/>
 
             <TransformControls
                 object={activeBone}

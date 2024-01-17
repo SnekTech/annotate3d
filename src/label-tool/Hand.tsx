@@ -1,53 +1,26 @@
 import { useHelper } from "@react-three/drei";
 import { SkeletonHelper, SkinnedMesh } from "three";
-import { ForwardedRef, forwardRef, Suspense, useEffect, useImperativeHandle, useRef } from "react";
-import { getPose, Pose, updatePose } from "./ModelUtils.ts";
+import { Suspense, useEffect, useRef } from "react";
 import { useToolState } from "./ToolState.ts";
-
-
-export type HandModelMethods = {
-    getPose(): Pose
-    updatePose(newPose: Pose): void
-    resetPose(): void
-}
 
 type HandProps = {
     skinnedMesh: SkinnedMesh
 }
 
-function Hand(props: HandProps, ref: ForwardedRef<HandModelMethods>) {
+function Hand(props: HandProps) {
+    const { originalPose, setCurrentModel } = useToolState()
 
-    const { originalPose , setCurrentModel} = useToolState()
-    
-
-    const skinnedMesh = props.skinnedMesh
-
-    const { skeleton, geometry } = skinnedMesh
+    const { skeleton, geometry } = props.skinnedMesh
     const rootBone = skeleton.bones[0]
 
     const handMeshRef = useRef<SkinnedMesh>(null!)
     useHelper(handMeshRef, SkeletonHelper)
-    
-    useEffect(() => {
-        console.log(handMeshRef.current);
-        setCurrentModel(handMeshRef.current)
-    }, [setCurrentModel])
 
-    useImperativeHandle(ref, () => {
-        return {
-            getPose(): Pose {
-                return getPose(handMeshRef.current)
-            },
-            updatePose(newPose: Pose) {
-                updatePose(handMeshRef.current, newPose)
-            },
-            resetPose() {
-                if (!originalPose)
-                    return
-                updatePose(handMeshRef.current, originalPose)
-            }
-        }
-    })
+    useEffect(() => {
+        setCurrentModel(handMeshRef.current)
+    }, [ originalPose, setCurrentModel ])
+
+
 
     return (
         <>
@@ -66,4 +39,4 @@ function Hand(props: HandProps, ref: ForwardedRef<HandModelMethods>) {
     )
 }
 
-export const HandModel = forwardRef<HandModelMethods, HandProps>(Hand)
+export const HandModel = Hand
