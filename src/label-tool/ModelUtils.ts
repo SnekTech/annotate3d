@@ -54,9 +54,10 @@ export function useHandModel() {
     if (bones.length <= 0)
         throw new Error('model has no bones')
 
-    const originalPose: Pose = useMemo(() => getPose(skinnedMesh), [])
+    const originalPose: Pose = useMemo(() => getPose(skinnedMesh), [skinnedMesh])
 
     return {
+        skinnedMesh,
         skeleton: skinnedMesh.skeleton,
         geometry: skinnedMesh.geometry,
         bones: skinnedMesh.skeleton.bones,

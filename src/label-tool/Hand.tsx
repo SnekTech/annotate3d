@@ -1,7 +1,7 @@
 import { useHelper } from "@react-three/drei";
 import { SkeletonHelper, SkinnedMesh } from "three";
 import { ForwardedRef, forwardRef, Suspense, useImperativeHandle, useRef } from "react";
-import { getPose, Pose, updatePose, useHandModel } from "./ModelUtils.ts";
+import { getPose, Pose, updatePose } from "./ModelUtils.ts";
 
 
 export type HandModelMethods = {
@@ -9,11 +9,15 @@ export type HandModelMethods = {
     updatePose(newPose: Pose): void
 }
 
+type HandProps = {
+    skinnedMesh: SkinnedMesh
+}
 
-function Hand(_props: unknown, ref: ForwardedRef<HandModelMethods>) {
+function Hand(props: HandProps, ref: ForwardedRef<HandModelMethods>) {
+    const skinnedMesh = props.skinnedMesh
 
-    const {skeleton, geometry, bones} = useHandModel()
-    const rootBone = bones[0]
+    const {skeleton, geometry} = skinnedMesh
+    const rootBone = skeleton.bones[0]
 
     const handMeshRef = useRef<SkinnedMesh>(null!)
     useHelper(handMeshRef, SkeletonHelper)
@@ -21,11 +25,9 @@ function Hand(_props: unknown, ref: ForwardedRef<HandModelMethods>) {
     useImperativeHandle(ref, () => {
         return {
             getPose(): Pose {
-                console.log('getting pose')
                 return getPose(handMeshRef.current)
             },
             updatePose(newPose: Pose) {
-                console.log('updating pose: \n', newPose)
                 updatePose(handMeshRef.current, newPose)
             }
         }
@@ -43,10 +45,9 @@ function Hand(_props: unknown, ref: ForwardedRef<HandModelMethods>) {
                     <primitive object={rootBone}/>
                     <meshStandardMaterial color={'hotpink'}/>
                 </skinnedMesh>
-
             </Suspense>
         </>
     )
 }
 
-export const HandModel = forwardRef<HandModelMethods, unknown>(Hand)
+export const HandModel = forwardRef<HandModelMethods, HandProps>(Hand)

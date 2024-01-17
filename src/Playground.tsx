@@ -9,7 +9,7 @@ import { useHandModel } from "./label-tool/ModelUtils.ts";
 
 export function Playground() {
 
-    const {bones, originalPose} = useHandModel()
+    const {skinnedMesh, bones, originalPose} = useHandModel()
 
     const [activeBone, setActiveBone] = useState<Bone>(bones[0])
 
@@ -34,11 +34,10 @@ export function Playground() {
                 <Canvas>
                     <ambientLight intensity={0.1}/>
                     <directionalLight color={"red"} position={[0, 0, 5]}/>
-
                     <OrbitControls makeDefault/>
 
 
-                    <HandModel ref={handModelRef}/>
+                    <HandModel skinnedMesh={skinnedMesh} ref={handModelRef}/>
 
                     <TransformControls
                         object={activeBone}
