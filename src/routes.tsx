@@ -1,6 +1,6 @@
 import { RootRoute, Route, Router } from "@tanstack/react-router";
 import App from "./App";
-import { Playground } from "./Playground";
+import { LabelTool } from "./label-tool/LabelTool.tsx";
 
 const rootRoute = new RootRoute({
     component: App
@@ -14,8 +14,8 @@ const indexRoute = new Route({
 
 const playgroundRoute = new Route({
     getParentRoute: () => rootRoute,
-    path: '/playground',
-    component: Playground
+    path: '/tool',
+    component: LabelTool
 })
 
 const routeTree = rootRoute.addChildren([indexRoute, playgroundRoute])

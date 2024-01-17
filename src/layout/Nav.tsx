@@ -6,7 +6,7 @@ export function Nav() {
     return (
         <HStack>
             <Link to={'/'}>Home</Link>
-            <Link to={'/playground'}>Tool</Link>
+            <Link to={'/tool'}>Tool</Link>
         </HStack>
     );
 }

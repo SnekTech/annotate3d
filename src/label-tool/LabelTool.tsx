@@ -1,13 +1,12 @@
-import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
 import { Bone } from "three";
-import { BoneList } from "./label-tool/BoneList.tsx";
+import { BoneList } from "./BoneList.tsx";
 import { useRef, useState } from "react";
 import { Box, Button, Text } from "@chakra-ui/react";
-import { HandModel, HandModelMethods } from "./label-tool/Hand.tsx";
-import { useHandModel } from "./label-tool/ModelUtils.ts";
+import { HandModelMethods } from "./Hand.tsx";
+import { useHandModel } from "./ModelUtils.ts";
+import { ToolCanvas } from "./ToolCanvas.tsx";
 
-export function Playground() {
+export function LabelTool() {
 
     const {skinnedMesh, bones, originalPose} = useHandModel()
 
@@ -31,24 +30,8 @@ export function Playground() {
     return (
         <>
             <Box maxWidth="md" height={'400px'}>
-                <Canvas>
-                    <ambientLight intensity={0.1}/>
-                    <directionalLight color={"red"} position={[0, 0, 5]}/>
-                    <OrbitControls makeDefault/>
+                <ToolCanvas modelSkinnedMesh={skinnedMesh} modelMethodsRef={handModelRef} activeBone={activeBone} />
 
-
-                    <HandModel skinnedMesh={skinnedMesh} ref={handModelRef}/>
-
-                    <TransformControls
-                        object={activeBone}
-                        mode={'rotate'}
-                    />
-
-                    <GizmoHelper>
-                        <GizmoViewport/>
-                    </GizmoHelper>
-
-                </Canvas>
                 <Text>{activeBone.name}</Text>
                 <Button onClick={handleCalculatePose}>Calc</Button>
                 <Button onClick={resetPose}>Reset Pose</Button>
