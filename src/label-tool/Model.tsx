@@ -4,6 +4,8 @@ import { Suspense, useEffect, useRef } from "react";
 import { useToolState } from "./ToolState.ts";
 import { getPose } from "./ModelUtils.ts";
 
+const SMPL_Key = 'SMPL-mesh-male';
+
 export function Model() {
     const {
         modelPath,
@@ -13,12 +15,13 @@ export function Model() {
     const gltfData = useGLTF(modelPath)
     const { nodes } = gltfData
 
-    const model = nodes['SMPL-mesh-male'] as SkinnedMesh
+    const model = nodes[SMPL_Key] as SkinnedMesh
+    const { geometry, skeleton, morphTargetDictionary, morphTargetInfluences } = model
 
     const bones = model.skeleton.bones
 
-    const modelRef = useRef<SkinnedMesh>(null!)
-    useHelper(modelRef, SkeletonHelper)
+    const rootBoneRef = useRef<SkinnedMesh>(null!)
+    useHelper(rootBoneRef, SkeletonHelper)
 
     useEffect(() => {
         setOriginalPoseData(getPose(bones))
@@ -31,19 +34,22 @@ export function Model() {
             <Suspense fallback={'hand fallback'}>
                 <group>
                     <skinnedMesh
-                        name={'SMPL-mesh-male'}
-                        ref={modelRef}
-                        geometry={model.geometry}
-                        skeleton={model.skeleton}
-                        morphTargetDictionary={model.morphTargetDictionary}
-                        morphTargetInfluences={model.morphTargetInfluences}
+                        name={SMPL_Key}
+                        geometry={geometry}
+                        skeleton={skeleton}
+                        morphTargetDictionary={morphTargetDictionary}
+                        morphTargetInfluences={morphTargetInfluences}
                     >
                         <meshStandardMaterial
                             transparent={true}
                             opacity={0.5}
                             color={'hotpink'}/>
                     </skinnedMesh>
-                    <primitive object={nodes.root}/>
+                    <primitive
+                        ref={rootBoneRef}
+                        object={nodes.root}/>
+
+
                 </group>
             </Suspense>
         </>
