@@ -1,23 +1,24 @@
-import { Bone, SkinnedMesh } from "three";
-import { Pose, updatePose } from "./ModelUtils.ts";
+import { Bone } from "three";
+import { ModelPaths, Pose, updatePose } from "./ModelUtils.ts";
 import { create } from "zustand";
 
+
 interface State {
-    currentModel?: SkinnedMesh
-    originalPose?: Pose
-    pose?: Pose
+    originalPoseData?: Pose
+    poseData?: Pose
     bones: Bone[]
     activeBone?: Bone
+    modelPath: string
 }
 
 interface Action {
-    setCurrentModel(skinnedMesh: SkinnedMesh): void
+    setOriginalPoseData(pose: Pose): void
 
-    setOriginalPose(pose: Pose): void
+    setPoseData(newPose: Pose): void
 
-    setPose(newPose: Pose): void
+    updateModelPose(pose: Pose): void
 
-    resetPose(): void
+    resetModelPose(): void
 
     setBones(bones: Bone[]): void
 
@@ -27,24 +28,30 @@ interface Action {
 export const useToolState = create<State & Action>()(set => {
 
     return {
-        setCurrentModel(model: SkinnedMesh) {
-            set({ currentModel: model })
+        modelPath: ModelPaths.SMPL,
+        bones: [],
+
+        setOriginalPoseData(pose: Pose) {
+            set({ originalPoseData: pose })
         },
-        setOriginalPose(pose: Pose) {
-            set({ originalPose: pose })
+        setPoseData(newPose: Pose) {
+            set({ poseData: newPose })
         },
-        setPose(newPose: Pose) {
-            set({ pose: newPose })
-        },
-        resetPose() {
+        updateModelPose(pose: Pose) {
             set(state => {
-                const [ model, originalPose ] = [ state.currentModel, state.originalPose ]
-                if (!model || !originalPose) return {}
-                updatePose(model, originalPose)
-                return { pose: originalPose }
+                updatePose(state.bones, pose)
+                return {}
             })
         },
-        bones: [],
+        resetModelPose() {
+            set(state => {
+                const originalPoseData = state.originalPoseData
+                if (!originalPoseData) return {}
+
+                updatePose(state.bones, originalPoseData)
+                return {}
+            })
+        },
         setBones(bones: Bone[]) {
             set({ bones })
         },

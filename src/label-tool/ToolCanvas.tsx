@@ -1,29 +1,20 @@
 import { Canvas } from "@react-three/fiber";
 import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls } from "@react-three/drei";
-import { HandModel } from "./Hand.tsx";
-import { useEffect } from "react";
+import { Model } from "./Model.tsx";
 import { useToolState } from "./ToolState.ts";
-import { getPose, useHandModel } from "./ModelUtils.ts";
-
+import { getPose } from "./ModelUtils.ts";
 
 export function ToolCanvas() {
-    const { model, bones, originalPose, } = useHandModel()
 
-    const { activeBone, currentModel, setActiveBone, setCurrentModel, setOriginalPose, setPose, setBones } = useToolState()
-
-    // model-related state can only be initialized in the ThreeJS canvas
-    useEffect(() => {
-        setActiveBone(bones[0])
-        setOriginalPose(originalPose)
-        setPose(originalPose)
-        setCurrentModel(model)
-        setBones(bones)
-    }, [ bones, model, originalPose, setActiveBone, setBones, setCurrentModel, setOriginalPose, setPose ])
+    const {
+        activeBone,
+        setPoseData,
+        bones,
+    } = useToolState()
 
     function handlePoseChange() {
-        if (!currentModel) return
-
-        setPose(getPose(currentModel))
+        const newPose = getPose(bones)
+        setPoseData(newPose)
     }
 
     return (
@@ -33,7 +24,7 @@ export function ToolCanvas() {
             <OrbitControls makeDefault/>
 
 
-            <HandModel skinnedMesh={model}/>
+            <Model/>
 
             <TransformControls
                 object={activeBone}

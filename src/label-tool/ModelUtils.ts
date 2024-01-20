@@ -1,7 +1,5 @@
 import { useGLTF } from "@react-three/drei";
-import { Bone, Object3D, Quaternion, SkinnedMesh } from "three";
-import { GLTF } from "three/examples/jsm/Addons.js";
-import { useMemo } from "react";
+import { Bone, Quaternion } from "three";
 
 
 export type MyQuaternion = [ x: number, y: number, z: number, w: number ]
@@ -16,8 +14,7 @@ export function toQuaternion(q: MyQuaternion): Quaternion {
     return new Quaternion(x, y, z, w)
 }
 
-export function getPose(mesh: SkinnedMesh): Pose {
-    const bones = mesh.skeleton.bones
+export function getPose(bones: Bone[]): Pose {
     const pose: Pose = {}
     bones.forEach(bone => {
         const quaternion = bone.quaternion
@@ -26,40 +23,17 @@ export function getPose(mesh: SkinnedMesh): Pose {
     return pose
 }
 
-export function updatePose(mesh: SkinnedMesh, newPose: Pose) {
-    const bones = mesh.skeleton.bones
+export function updatePose(bones: Bone[], newPose: Pose) {
     bones.forEach(bone => {
         const q = newPose[bone.name]
         bone.setRotationFromQuaternion(toQuaternion(q))
     })
 }
 
-
-type GLTFNodes = {
-    [nodeName: string]: SkinnedMesh | Object3D | Bone
-    hand: SkinnedMesh
-    Armature_BaseBone: Bone
+export const ModelPaths = {
+    Hand: '/hand-rigged.glb',
+    XBot: '/XBot.glb',
+    SMPL: '/SMPL.glb',
 }
 
-type HandGLTF = GLTF & {
-    nodes: GLTFNodes
-}
-
-useGLTF.preload('/hand-rigged.glb')
-
-export function useHandModel() {
-    const gltfData = useGLTF('/hand-rigged.glb') as unknown as HandGLTF
-
-    const skinnedMesh = gltfData.nodes.hand
-    const bones = skinnedMesh.skeleton.bones
-    if (bones.length <= 0)
-        throw new Error('model has no bones')
-
-    const originalPose: Pose = useMemo(() => getPose(skinnedMesh), [ skinnedMesh ])
-
-    return {
-        model: skinnedMesh,
-        bones: skinnedMesh.skeleton.bones,
-        originalPose
-    }
-}
+useGLTF.preload(ModelPaths.SMPL)
