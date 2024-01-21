@@ -3,6 +3,7 @@ import { SkeletonHelper, SkinnedMesh } from "three";
 import { Suspense, useEffect, useRef } from "react";
 import { useToolState } from "./ToolState.ts";
 import { getPose } from "./ModelUtils.ts";
+import { useControls } from "leva";
 
 const SMPL_Key = 'SMPL-mesh-male';
 
@@ -20,18 +21,27 @@ export function Model() {
 
     const bones = model.skeleton.bones
 
-    const rootBoneRef = useRef<SkinnedMesh>(null!)
-    useHelper(rootBoneRef, SkeletonHelper)
-
     useEffect(() => {
         setOriginalPoseData(getPose(bones))
         setBones(bones)
         setActiveBone(bones[0])
     }, [ bones, setActiveBone, setBones, setOriginalPoseData ])
 
+    const rootBoneRef = useRef<SkinnedMesh>(null!)
+    useHelper(rootBoneRef, SkeletonHelper)
+
+    const { modelColor, opacity } = useControls({
+        modelColor: '#f00',
+        opacity: {
+            min: 0,
+            max: 1,
+            value: 0.7,
+        }
+    })
+
     return (
         <>
-            <Suspense fallback={'hand fallback'}>
+            <Suspense fallback={'model fallback'}>
                 <group>
                     <skinnedMesh
                         name={SMPL_Key}
@@ -42,14 +52,12 @@ export function Model() {
                     >
                         <meshStandardMaterial
                             transparent={true}
-                            opacity={0.5}
-                            color={'hotpink'}/>
+                            opacity={opacity}
+                            color={modelColor}/>
                     </skinnedMesh>
                     <primitive
                         ref={rootBoneRef}
                         object={nodes.root}/>
-
-
                 </group>
             </Suspense>
         </>
