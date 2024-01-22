@@ -3,6 +3,8 @@ import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls } from "@r
 import { Model } from "./Model.tsx";
 import { useToolState } from "./ToolState.ts";
 import { getPose } from "./ModelUtils.ts";
+import { Box } from "@chakra-ui/react";
+import { ReferenceImage, TestFramePath } from "./ReferenceImage.tsx";
 
 export function ToolCanvas() {
 
@@ -18,23 +20,27 @@ export function ToolCanvas() {
     }
 
     return (
-        <Canvas>
-            <ambientLight intensity={0.1}/>
-            <directionalLight color={"white"} position={[ 0, 0, 5 ]}/>
-            <OrbitControls makeDefault/>
+        <Box width={600} height={800} bgColor={'lightgray'}>
+            <Canvas>
+                <ambientLight intensity={0.1}/>
+                <directionalLight color={"white"} position={[ 0, 0, 5 ]}/>
+                <OrbitControls makeDefault/>
 
+                <ReferenceImage imagePath={TestFramePath}/>
 
-            <Model/>
+                <Model/>
 
-            <TransformControls
-                object={activeBone}
-                mode={'rotate'}
-                onChange={handlePoseChange}
-            />
+                <TransformControls
+                    object={activeBone}
+                    mode={'rotate'}
+                    onChange={handlePoseChange}
+                />
 
-            <GizmoHelper>
-                <GizmoViewport/>
-            </GizmoHelper>
-        </Canvas>
+                <GizmoHelper>
+                    <GizmoViewport/>
+                </GizmoHelper>
+            </Canvas>
+        </Box>
+
     )
 }
