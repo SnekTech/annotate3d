@@ -1,12 +1,25 @@
-import { HStack } from "@chakra-ui/react";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 export function Nav() {
 
     return (
-        <HStack>
-            <Link to={'home'}>Home</Link>
-            <Link to={'tool'}>Tool</Link>
-        </HStack>
+        <Breadcrumb separator={'-'}>
+            <BreadcrumbItem>
+                <BreadcrumbLink as={Link} to={'home'}>
+                    Home
+                </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+                <BreadcrumbLink as={Link} to={'tool'}>
+                    Tool
+                </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+                <BreadcrumbLink as={Link} to={'#'}>
+                    Project
+                </BreadcrumbLink>
+            </BreadcrumbItem>
+        </Breadcrumb>
     );
 }
