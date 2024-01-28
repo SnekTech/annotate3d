@@ -4,7 +4,7 @@ interface ReferenceImageProps {
     imagePath: string
 }
 
-export const TestFramePath = 'test-assets/frames/image-005.png';
+export const TestFramePath = 'frames/image-003.png';
 
 export function ReferenceImage(props: ReferenceImageProps) {
 
