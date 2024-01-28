@@ -1,13 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import { ChakraProvider, ColorModeScript, extendTheme, ThemeConfig } from "@chakra-ui/react";
 
 import './index.css'
-import App from "./App.tsx";
-import { ErrorPage } from "./layout/error-page.tsx";
-import { ToolRoot } from "./label-tool/ToolRoot.tsx";
+import { router } from "./Routes.tsx";
 
 const themeConfig: ThemeConfig = {
     initialColorMode: 'dark',
@@ -15,24 +13,7 @@ const themeConfig: ThemeConfig = {
 }
 const myTheme = extendTheme({ config: themeConfig })
 
-const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <App/>,
-        errorElement: <ErrorPage/>,
-        children: [
-            {
-                path: 'home',
-                element: 'Home, sweet home~'
-            },
-            {
-                path: 'tool',
-                element: <ToolRoot/>
-            }
-        ]
-    },
 
-])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <>

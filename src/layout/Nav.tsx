@@ -16,7 +16,7 @@ export function Nav() {
                 </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-                <BreadcrumbLink as={Link} to={'#'}>
+                <BreadcrumbLink as={Link} to={'project'}>
                     Project
                 </BreadcrumbLink>
             </BreadcrumbItem>
