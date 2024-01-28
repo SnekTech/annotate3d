@@ -5,7 +5,7 @@ export function HeaderBar() {
     return (
         <Flex alignItems={'center'} p={'2'}>
             <Box p={'2'}>
-                <Heading size={'lg'}>Label3D v2</Heading>
+                <Heading size={'lg'}>Annotate3D v2</Heading>
             </Box>
             <Spacer />
             <ButtonGroup>
