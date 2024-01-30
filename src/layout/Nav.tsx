@@ -20,6 +20,11 @@ export function Nav() {
                     Project
                 </BreadcrumbLink>
             </BreadcrumbItem>
+            <BreadcrumbItem>
+                <BreadcrumbLink as={Link} to={'task'}>
+                    Task
+                </BreadcrumbLink>
+            </BreadcrumbItem>
         </Breadcrumb>
     );
 }

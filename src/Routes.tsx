@@ -3,6 +3,7 @@ import App from "./App.tsx";
 import { ErrorPage } from "./layout/error-page.tsx";
 import { ToolRoot } from "./label-tool/ToolRoot.tsx";
 import { AnnotateProjectCreate } from "./annotate-manage/AnnotateProjectCreate.tsx";
+import { AnnotateTaskCreate } from "./annotate-manage/AnnotateTaskCreate.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
             {
                 path: 'project',
                 element: <AnnotateProjectCreate/>
+            },
+            {
+                path: 'task',
+                element: <AnnotateTaskCreate/>
             }
         ]
     },
