@@ -8,7 +8,7 @@ interface IProjectFormData {
     model: FileList
 }
 
-export function AnnotateProject() {
+export function AnnotateProjectCreate() {
     const {
         handleSubmit,
         register,

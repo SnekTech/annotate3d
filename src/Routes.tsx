@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import { ErrorPage } from "./layout/error-page.tsx";
 import { ToolRoot } from "./label-tool/ToolRoot.tsx";
-import { AnnotateProject } from "./annotate-manage/AnnotateProject.tsx";
+import { AnnotateProjectCreate } from "./annotate-manage/AnnotateProjectCreate.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -20,7 +20,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'project',
-                element: <AnnotateProject/>
+                element: <AnnotateProjectCreate/>
             }
         ]
     },
