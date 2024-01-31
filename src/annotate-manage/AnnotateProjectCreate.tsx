@@ -1,6 +1,6 @@
 import { Button, Container, FormControl, FormErrorMessage, FormLabel, Input, Stack } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { HttpClient } from "../core/httpClient.ts";
+import { formClient } from "../core/httpClient.ts";
 import { useUserState } from "../user/userState.ts";
 
 interface IProjectFormData {
@@ -22,11 +22,11 @@ export function AnnotateProjectCreate() {
     const { currentUserId } = useUserState()
 
     const onSubmit: SubmitHandler<IProjectFormData> = async (data) => {
-        const response = await HttpClient.post("projects/create", {
+        const response = await formClient.post("projects/create", {
             ...data,
             model: data.model[0],
             creatorId: currentUserId
-        }, { headers: { "Content-Type": 'multipart/form-data' } })
+        })
         console.log(response);
     }
 
