@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { formClient } from "../../core/httpClient.ts";
 import { useUserState } from "../../user/userState.ts";
 import { SelectUser } from "./components/SelectUser.tsx";
+import { AxiosError } from "axios";
 
 export type TaskFormData = {
     taskName: string
@@ -15,21 +16,27 @@ export function AnnotateTaskCreate() {
     const {
         handleSubmit,
         register,
+        reset,
         control,
         formState: { errors, isSubmitting }
     } = useForm<TaskFormData>()
 
 
     const onSubmit: SubmitHandler<TaskFormData> = async (data) => {
-        console.log(data);
+        try {
+            const response = await formClient.post('tasks/create', {
+                ...data,
+                video: data.video[0],
+                creatorId: currentUserId,
+            })
 
-        const response = await formClient.post('tasks/create', {
-            ...data,
-            video: data.video[0],
-            creatorId: currentUserId,
-        })
-
-        console.log(response);
+            console.log(response);
+        } catch (e: unknown) {
+            if (e instanceof AxiosError) {
+                console.error(e)
+                reset()
+            }
+        }
     }
 
     return (

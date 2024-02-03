@@ -2,6 +2,7 @@ import { Button, Container, FormControl, FormErrorMessage, FormLabel, Input, Sta
 import { SubmitHandler, useForm } from "react-hook-form";
 import { formClient } from "../core/httpClient.ts";
 import { useUserState } from "../user/userState.ts";
+import { AxiosError } from "axios";
 
 interface IProjectFormData {
     projectName: string
@@ -12,6 +13,7 @@ export function AnnotateProjectCreate() {
     const {
         handleSubmit,
         register,
+        resetField,
         formState: { errors, isSubmitting }
     } = useForm<IProjectFormData>({
         defaultValues: {
@@ -22,12 +24,18 @@ export function AnnotateProjectCreate() {
     const { currentUserId } = useUserState()
 
     const onSubmit: SubmitHandler<IProjectFormData> = async (data) => {
-        const response = await formClient.post("projects/create", {
-            ...data,
-            model: data.model[0],
-            creatorId: currentUserId
-        })
-        console.log(response);
+        try {
+            await formClient.post("projects/create", {
+                ...data,
+                model: data.model[0],
+                creatorId: currentUserId
+            })
+        } catch (err: unknown) {
+            if (err instanceof AxiosError) {
+                console.error(err.response?.data)
+                resetField('projectName')
+            }
+        }
     }
 
     return (
@@ -38,22 +46,24 @@ export function AnnotateProjectCreate() {
                         <FormLabel>项目名称</FormLabel>
                         <Input placeholder={'XX 项目'}
                                {...register('projectName', {
-                                   required: { value: true, message: '必须填写项目名称' }
+                                   required: { value: true, message: '必须填写项目名称' },
                                })}
                         />
                         <FormErrorMessage>
-                            {errors.projectName ? errors.projectName.message : ''}
+                            {errors.projectName?.message}
                         </FormErrorMessage>
                     </FormControl>
-                    <FormControl>
+                    <FormControl isInvalid={errors.model != undefined}>
                         <FormLabel>上传模型</FormLabel>
                         <Input
-                            {...register('model', {
-                                required: '必须提供模型文件'
-                            })}
                             type={'file'}
-                            multiple={false}
+                            {...register('model', {
+                                required: { value: true, message: '必须提供模型文件' }
+                            })}
                         />
+                        <FormErrorMessage>
+                            {errors.model && errors.model.message}
+                        </FormErrorMessage>
                     </FormControl>
                 </Stack>
 

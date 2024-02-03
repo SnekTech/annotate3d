@@ -5,7 +5,7 @@ import { getUsers } from "../../../core/httpClient.ts";
 import { TaskFormData } from "../AnnotateTaskCreate.tsx";
 
 
-export function SelectUser(props: {control: Control<TaskFormData>}) {
+export function SelectUser(props: { control: Control<TaskFormData> }) {
 
     const { data: users, isPending, isError, error } = useQuery({
         queryKey: [ 'users' ], queryFn: getUsers,
@@ -16,7 +16,6 @@ export function SelectUser(props: {control: Control<TaskFormData>}) {
 
     if (isError)
         throw error
-
 
     return (
 
