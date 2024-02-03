@@ -2,10 +2,9 @@ import { useGLTF, useHelper } from "@react-three/drei";
 import { SkeletonHelper, SkinnedMesh } from "three";
 import { Suspense, useEffect, useRef } from "react";
 import { useToolState } from "./ToolState.ts";
-import { getPose } from "./ModelUtils.ts";
+import { getPose, SMPL_Key } from "./ModelUtils.ts";
 import { useControls } from "leva";
 
-const SMPL_Key = 'SMPL-mesh-male';
 
 export function Model() {
     const {

@@ -36,4 +36,6 @@ export const ModelPaths = {
     SMPL: '/SMPL.glb',
 }
 
+export const SMPL_Key = 'SMPL-mesh-male';
+
 useGLTF.preload(ModelPaths.SMPL)
