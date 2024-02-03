@@ -1,8 +1,9 @@
 import { Button, Container, FormControl, FormErrorMessage, FormLabel, Input, Stack } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { formClient } from "../core/httpClient.ts";
-import { useUserState } from "../user/userState.ts";
+import { formClient } from "../../core/httpClient.ts";
+import { useUserState } from "../../user/userState.ts";
 import { AxiosError } from "axios";
+import { ModelViewer } from "./ModelViewer.tsx";
 
 interface IProjectFormData {
     projectName: string
@@ -58,13 +59,15 @@ export function AnnotateProjectCreate() {
                         <Input
                             type={'file'}
                             {...register('model', {
-                                required: { value: true, message: '必须提供模型文件' }
+                                required: { value: true, message: '必须提供模型文件' },
                             })}
                         />
                         <FormErrorMessage>
                             {errors.model && errors.model.message}
                         </FormErrorMessage>
                     </FormControl>
+
+                    <ModelViewer/>
                 </Stack>
 
                 <Button mt={4} colorScheme={'teal'} isLoading={isSubmitting} type={'submit'}>

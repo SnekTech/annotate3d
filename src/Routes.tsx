@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import { ErrorPage } from "./layout/error-page.tsx";
 import { ToolRoot } from "./label-tool/ToolRoot.tsx";
-import { AnnotateProjectCreate } from "./annotate-manage/AnnotateProjectCreate.tsx";
+import { AnnotateProjectCreate } from "./annotate-manage/project/AnnotateProjectCreate.tsx";
 import { AnnotateTaskCreate } from "./annotate-manage/task/AnnotateTaskCreate.tsx";
 
 export const router = createBrowserRouter([
