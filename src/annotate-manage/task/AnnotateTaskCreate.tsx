@@ -1,18 +1,16 @@
-import { Button, Container, FormControl, FormErrorMessage, FormLabel, Input, Select, Stack } from "@chakra-ui/react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { formClient, getUsers } from "../core/httpClient.ts";
-import { useUserState } from "../user/userState.ts";
-import { useQuery } from "@tanstack/react-query";
+import { Button, Container, FormControl, FormErrorMessage, FormLabel, Input, Stack } from "@chakra-ui/react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { formClient } from "../../core/httpClient.ts";
+import { useUserState } from "../../user/userState.ts";
+import { SelectUser } from "./components/SelectUser.tsx";
 
-type TaskFormData = {
+export type TaskFormData = {
     taskName: string
     executorId: number
     video: FileList
 }
 
 export function AnnotateTaskCreate() {
-    const { data: users, isPending, isError, error } = useQuery({ queryKey: [ 'users' ], queryFn: getUsers,
-    })
     const { currentUserId } = useUserState()
     const {
         handleSubmit,
@@ -20,13 +18,6 @@ export function AnnotateTaskCreate() {
         control,
         formState: { errors, isSubmitting }
     } = useForm<TaskFormData>()
-
-
-    if (isPending)
-        return 'fetching users'
-
-    if (isError)
-        throw error
 
 
     const onSubmit: SubmitHandler<TaskFormData> = async (data) => {
@@ -66,29 +57,8 @@ export function AnnotateTaskCreate() {
                             {errors.video && errors.video.message}
                         </FormErrorMessage>
                     </FormControl>
-                    <Controller
-                        name={'executorId'}
-                        control={control}
-                        rules={{ required: { value: true, message: '选择执行者' } }}
-                        defaultValue={users[0].userId}
-                        render={({
-                                     field: { onChange, value },
-                                     fieldState: { error }
-                                 }) => (
-                            <FormControl isInvalid={error != undefined}>
-                                <FormLabel>执行者</FormLabel>
-                                <Select
-                                    onChange={onChange}
-                                    value={value}
-                                >
-                                    {users?.map(({ userId, nickname }) => (
-                                        <option key={userId} value={userId}>{nickname}</option>
-                                    ))}
-                                </Select>
-                                <FormErrorMessage>{error?.message}</FormErrorMessage>
-                            </FormControl>
-                        )}
-                    />
+
+                    <SelectUser control={control}/>
                 </Stack>
 
                 <Button mt={4} colorScheme={'teal'} isLoading={isSubmitting} type={'submit'}>
