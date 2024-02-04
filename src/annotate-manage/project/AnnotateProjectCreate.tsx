@@ -40,7 +40,7 @@ export function AnnotateProjectCreate() {
     }
 
     return (
-        <Container>
+        <Container maxW={'600px'}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={4}>
                     <FormControl isInvalid={errors.projectName != undefined}>

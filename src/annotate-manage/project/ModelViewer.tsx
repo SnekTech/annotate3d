@@ -1,10 +1,11 @@
 import { Canvas } from "@react-three/fiber";
-import { Suspense, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { SkeletonHelper, SkinnedMesh } from "three";
-import { RoundedBox, useGLTF, useHelper } from "@react-three/drei";
+import { Html, RoundedBox, useGLTF, useHelper } from "@react-three/drei";
 import { ModelPaths, SMPL_Key } from "../../label-tool/ModelUtils.ts";
-import { Box } from "@chakra-ui/react";
+import { Box, HStack } from "@chakra-ui/react";
 import { useControls } from "leva";
+import { BoneSelect, useBoneSelectState } from "./BoneSelect.tsx";
 
 function Model() {
     const modelUrl = ModelPaths.SMPL
@@ -21,6 +22,12 @@ function Model() {
         pos: { x: 0, y: 0, z: 3, }
     })
 
+    const { initBones, activeBone } = useBoneSelectState()
+    useEffect(() => {
+        console.log('init bones', skeleton.bones)
+        initBones(skeleton.bones)
+    }, [ initBones, skeleton ])
+
     return (
         <group position={[ x, y, z ]}>
             <skinnedMesh
@@ -35,27 +42,33 @@ function Model() {
             <primitive
                 ref={rootBoneRef}
                 object={nodes.root}/>
+
+            <Html parent={activeBone}>{activeBone?.name}</Html>
         </group>
     )
 }
 
 function FallbackBox() {
-    return <RoundedBox rotation={[1, 1, 1]}/>
+    return <RoundedBox rotation={[ 1, 1, 1 ]}/>
 }
 
 export function ModelViewer() {
 
     return (
-        <Box width={600} height={800}>
-            <Canvas>
-                <ambientLight intensity={0.1}/>
-                <directionalLight color={"white"} position={[ 0, 0, 5 ]}/>
+        <HStack>
+            <Box height={600} width={400}>
+                <Canvas>
+                    <ambientLight intensity={0.1}/>
+                    <directionalLight color={"white"} position={[ 0, 0, 5 ]}/>
 
-                <Suspense fallback={<FallbackBox/>}>
-                    <Model/>
-                </Suspense>
-            </Canvas>
+                    <Suspense fallback={<FallbackBox/>}>
+                        <Model/>
+                    </Suspense>
+                </Canvas>
 
-        </Box>
+            </Box>
+
+            <BoneSelect/>
+        </HStack>
     )
 }
