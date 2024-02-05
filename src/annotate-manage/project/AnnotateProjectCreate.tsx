@@ -4,6 +4,7 @@ import { formClient } from "../../core/httpClient.ts";
 import { useUserState } from "../../user/userState.ts";
 import { AxiosError } from "axios";
 import { ModelBonesViewer } from "./ModelBonesViewer.tsx";
+import { useSelectedBones } from "./BonesViewerStore.ts";
 
 interface IProjectFormData {
     projectName: string
@@ -23,13 +24,20 @@ export function AnnotateProjectCreate() {
     })
 
     const { currentUserId } = useUserState()
+    const selectedBones = useSelectedBones()
 
     const onSubmit: SubmitHandler<IProjectFormData> = async (data) => {
         try {
+            const boneNames: string[] = []
+            for (const bone of selectedBones.values()) {
+                boneNames.push(bone.name)
+            }
+
             await formClient.post("projects/create", {
                 ...data,
                 model: data.model[0],
-                creatorId: currentUserId
+                creatorId: currentUserId,
+                targetBones: boneNames
             })
         } catch (err: unknown) {
             if (err instanceof AxiosError) {
@@ -40,7 +48,7 @@ export function AnnotateProjectCreate() {
     }
 
     return (
-        <Container maxW={'600px'}>
+        <Container maxW={'800px'}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={4}>
                     <FormControl isInvalid={errors.projectName != undefined}>

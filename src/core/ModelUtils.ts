@@ -37,5 +37,9 @@ export const ModelPaths = {
 }
 
 export const SMPL_Key = 'SMPL-mesh-male';
-
 useGLTF.preload(ModelPaths.SMPL)
+
+export function getBonesString(bones: Bone[]) {
+    const boneNames = bones.map(bone => bone.name)
+    return boneNames.join(',')
+}

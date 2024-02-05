@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { Suspense, useEffect, useRef } from "react";
 import { Skeleton, SkeletonHelper, SkinnedMesh } from "three";
 import { Html, RoundedBox, useGLTF, useHelper } from "@react-three/drei";
-import { ModelPaths, SMPL_Key } from "../../label-tool/ModelUtils.ts";
+import { ModelPaths, SMPL_Key } from "../../core/ModelUtils.ts";
 import { Box, HStack } from "@chakra-ui/react";
 import { useControls } from "leva";
 import { BoneSelectTable } from "./BoneSelectTable.tsx";
@@ -71,7 +71,6 @@ export function ModelBonesViewer() {
                         <Model/>
                     </Suspense>
                 </Canvas>
-
             </Box>
 
             <BoneSelectTable/>

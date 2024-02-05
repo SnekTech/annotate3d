@@ -20,15 +20,14 @@ export function BoneSelectTable() {
                     </Thead>
                     <Tbody>
                         {bones.map(bone => {
-                            const chosen = selectedBones.has(bone)
                             return (
                                 <Tr key={bone.name} onMouseEnter={() => setActiveBone(bone)}>
                                     <Td>{bone.name}</Td>
                                     <Td>
-                                        <Checkbox isChecked={chosen}
+                                        <Checkbox defaultChecked={selectedBones.has(bone)}
                                                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                                      const isChosen = e.target.checked
-                                                      if (isChosen) {
+                                                      const checked = e.target.checked
+                                                      if (checked) {
                                                           selectedBones.add(bone)
                                                       } else {
                                                           selectedBones.delete(bone)
