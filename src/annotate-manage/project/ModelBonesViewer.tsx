@@ -1,12 +1,20 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useEffect, useRef } from "react";
-import { SkeletonHelper, SkinnedMesh } from "three";
+import { Skeleton, SkeletonHelper, SkinnedMesh } from "three";
 import { Html, RoundedBox, useGLTF, useHelper } from "@react-three/drei";
 import { ModelPaths, SMPL_Key } from "../../label-tool/ModelUtils.ts";
 import { Box, HStack } from "@chakra-ui/react";
 import { useControls } from "leva";
 import { BoneSelectTable } from "./BoneSelectTable.tsx";
 import { useHoveredBone, useBoneSelectStoreActions } from "./BonesViewerStore.ts";
+
+function useInitBonesInViewer(skeleton: Skeleton) {
+    const { initBones } = useBoneSelectStoreActions()
+    useEffect(() => {
+        console.log('init bones', skeleton.bones)
+        initBones(skeleton.bones)
+    }, [ initBones, skeleton ])
+}
 
 function Model() {
     const modelUrl = ModelPaths.SMPL
@@ -16,20 +24,15 @@ function Model() {
     const model = nodes[SMPL_Key] as SkinnedMesh
     const { geometry, skeleton, morphTargetDictionary, morphTargetInfluences } = model
 
+    useInitBonesInViewer(skeleton)
+    const hoveredBone = useHoveredBone()
+
     const rootBoneRef = useRef<SkinnedMesh>(null!)
     useHelper(rootBoneRef, SkeletonHelper)
 
     const { pos: { x, y, z } } = useControls({
         pos: { x: 0, y: 0, z: 3, }
     })
-
-    const { initBones } = useBoneSelectStoreActions()
-    const hoveredBone = useHoveredBone()
-
-    useEffect(() => {
-        console.log('init bones', skeleton.bones)
-        initBones(skeleton.bones)
-    }, [ initBones, skeleton ])
 
     return (
         <group position={[ x, y, z ]}>
