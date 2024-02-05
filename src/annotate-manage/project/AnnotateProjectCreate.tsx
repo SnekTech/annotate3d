@@ -1,7 +1,7 @@
 import { Button, Container, FormControl, FormErrorMessage, FormLabel, Input, Stack } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { formClient } from "../../core/httpClient.ts";
-import { useUserState } from "../../user/userState.ts";
+import { useCurrentUser } from "../../user/userState.ts";
 import { AxiosError } from "axios";
 import { ModelBonesViewer } from "./ModelBonesViewer.tsx";
 import { useSelectedBones } from "./BonesViewerStore.ts";
@@ -23,7 +23,7 @@ export function AnnotateProjectCreate() {
         }
     })
 
-    const { currentUserId } = useUserState()
+    const { userId: currentUserId } = useCurrentUser()
     const selectedBones = useSelectedBones()
 
     const onSubmit: SubmitHandler<IProjectFormData> = async (data) => {
