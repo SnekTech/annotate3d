@@ -5,8 +5,8 @@ import { Html, RoundedBox, useGLTF, useHelper } from "@react-three/drei";
 import { ModelPaths, SMPL_Key } from "../../label-tool/ModelUtils.ts";
 import { Box, HStack } from "@chakra-ui/react";
 import { useControls } from "leva";
-import { BoneSelect } from "./BoneSelect.tsx";
-import { useActiveBone, useBoneSelectStoreActions } from "./BoneSelectStore.ts";
+import { BoneSelectTable } from "./BoneSelectTable.tsx";
+import { useHoveredBone, useBoneSelectStoreActions } from "./BonesViewerStore.ts";
 
 function Model() {
     const modelUrl = ModelPaths.SMPL
@@ -24,7 +24,7 @@ function Model() {
     })
 
     const { initBones } = useBoneSelectStoreActions()
-    const activeBone = useActiveBone()
+    const hoveredBone = useHoveredBone()
 
     useEffect(() => {
         console.log('init bones', skeleton.bones)
@@ -46,7 +46,7 @@ function Model() {
                 ref={rootBoneRef}
                 object={nodes.root}/>
 
-            <Html parent={activeBone}>{activeBone?.name}</Html>
+            <Html parent={hoveredBone}>{hoveredBone?.name}</Html>
         </group>
     )
 }
@@ -55,7 +55,7 @@ function FallbackBox() {
     return <RoundedBox rotation={[ 1, 1, 1 ]}/>
 }
 
-export function ModelViewer() {
+export function ModelBonesViewer() {
 
     return (
         <HStack>
@@ -71,7 +71,7 @@ export function ModelViewer() {
 
             </Box>
 
-            <BoneSelect/>
+            <BoneSelectTable/>
         </HStack>
     )
 }

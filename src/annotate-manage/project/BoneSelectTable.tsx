@@ -1,8 +1,8 @@
 import { Checkbox, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { ChangeEvent } from "react";
-import { useBones, useBoneSelectStoreActions, useSelectedBones } from "./BoneSelectStore.ts";
+import { useBones, useBoneSelectStoreActions, useSelectedBones } from "./BonesViewerStore.ts";
 
-export function BoneSelect() {
+export function BoneSelectTable() {
     const bones = useBones()
     const selectedBones = useSelectedBones()
     const { setActiveBone } = useBoneSelectStoreActions()

@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { formClient } from "../../core/httpClient.ts";
 import { useUserState } from "../../user/userState.ts";
 import { AxiosError } from "axios";
-import { ModelViewer } from "./ModelViewer.tsx";
+import { ModelBonesViewer } from "./ModelBonesViewer.tsx";
 
 interface IProjectFormData {
     projectName: string
@@ -67,7 +67,7 @@ export function AnnotateProjectCreate() {
                         </FormErrorMessage>
                     </FormControl>
 
-                    <ModelViewer/>
+                    <ModelBonesViewer/>
                 </Stack>
 
                 <Button mt={4} colorScheme={'teal'} isLoading={isSubmitting} type={'submit'}>
