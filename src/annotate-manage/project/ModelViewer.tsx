@@ -5,7 +5,8 @@ import { Html, RoundedBox, useGLTF, useHelper } from "@react-three/drei";
 import { ModelPaths, SMPL_Key } from "../../label-tool/ModelUtils.ts";
 import { Box, HStack } from "@chakra-ui/react";
 import { useControls } from "leva";
-import { BoneSelect, useBoneSelectState } from "./BoneSelect.tsx";
+import { BoneSelect } from "./BoneSelect.tsx";
+import { useActiveBone, useBoneSelectStoreActions } from "./BoneSelectStore.ts";
 
 function Model() {
     const modelUrl = ModelPaths.SMPL
@@ -22,7 +23,9 @@ function Model() {
         pos: { x: 0, y: 0, z: 3, }
     })
 
-    const { initBones, activeBone } = useBoneSelectState()
+    const { initBones } = useBoneSelectStoreActions()
+    const activeBone = useActiveBone()
+
     useEffect(() => {
         console.log('init bones', skeleton.bones)
         initBones(skeleton.bones)

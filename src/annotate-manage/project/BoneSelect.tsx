@@ -1,25 +1,11 @@
-import { Bone } from "three";
-import { create } from "zustand";
 import { Checkbox, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { ChangeEvent } from "react";
-
-interface BoneSelectState {
-    bones: Bone[]
-    selectedBones: Set<Bone>
-    initBones: (bones: Bone[]) => void
-    activeBone?: Bone
-    setActiveBone: (bone: Bone) => void
-}
-
-export const useBoneSelectState = create<BoneSelectState>()(set => ({
-    bones: [],
-    selectedBones: new Set<Bone>(),
-    initBones: (bones: Bone[]) => set(() => ({ bones, selectedBones: new Set<Bone>() })),
-    setActiveBone: (bone: Bone) => set(() => ({ activeBone: bone }))
-}))
+import { useBones, useBoneSelectStoreActions, useSelectedBones } from "./BoneSelectStore.ts";
 
 export function BoneSelect() {
-    const { bones, selectedBones, setActiveBone } = useBoneSelectState()
+    const bones = useBones()
+    const selectedBones = useSelectedBones()
+    const { setActiveBone } = useBoneSelectStoreActions()
 
     return (
         <>
@@ -44,8 +30,7 @@ export function BoneSelect() {
                                                       const isChosen = e.target.checked
                                                       if (isChosen) {
                                                           selectedBones.add(bone)
-                                                      }
-                                                      else {
+                                                      } else {
                                                           selectedBones.delete(bone)
                                                       }
                                                   }}/>
