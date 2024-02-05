@@ -1,9 +1,9 @@
 import { Button, Container, FormControl, FormErrorMessage, FormLabel, Input, Stack } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { formClient } from "../../core/httpClient.ts";
-import { useUserState } from "../../user/userState.ts";
 import { SelectUser } from "./components/SelectUser.tsx";
 import { AxiosError } from "axios";
+import { useCurrentUser } from "../../user/userState.ts";
 
 export type TaskFormData = {
     taskName: string
@@ -12,7 +12,7 @@ export type TaskFormData = {
 }
 
 export function AnnotateTaskCreate() {
-    const { currentUserId } = useUserState()
+    const { userId: currentUserId } = useCurrentUser()
     const {
         handleSubmit,
         register,
