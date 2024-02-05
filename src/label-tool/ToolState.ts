@@ -1,5 +1,5 @@
 import { Bone } from "three";
-import { ModelPaths, Pose, updatePose } from "./ModelUtils.ts";
+import { ModelPaths, Pose, updatePose } from "../core/ModelUtils.ts";
 import { create } from "zustand";
 
 

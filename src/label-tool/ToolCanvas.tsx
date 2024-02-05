@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls } from "@react-three/drei";
 import { Model } from "./Model.tsx";
 import { useToolState } from "./ToolState.ts";
-import { getPose } from "./ModelUtils.ts";
+import { getPose } from "../core/ModelUtils.ts";
 import { Box } from "@chakra-ui/react";
 import { ReferenceImage, TestFramePath } from "./ReferenceImage.tsx";
 
