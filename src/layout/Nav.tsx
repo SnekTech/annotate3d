@@ -16,12 +16,12 @@ export function Nav() {
                 </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-                <BreadcrumbLink as={Link} to={'project'}>
+                <BreadcrumbLink as={Link} to={'project-create'}>
                     Project
                 </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-                <BreadcrumbLink as={Link} to={'task'}>
+                <BreadcrumbLink as={Link} to={'task-create'}>
                     Task
                 </BreadcrumbLink>
             </BreadcrumbItem>

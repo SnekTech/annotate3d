@@ -20,11 +20,11 @@ export const router = createBrowserRouter([
                 element: <ToolRoot/>
             },
             {
-                path: 'project',
+                path: 'project-create',
                 element: <AnnotateProjectCreate/>
             },
             {
-                path: 'task',
+                path: 'task-create',
                 element: <AnnotateTaskCreate/>
             }
         ]
