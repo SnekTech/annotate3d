@@ -1,5 +1,4 @@
 import axios from "axios";
-import { UserEntity } from "../user/user.entity.ts";
 
 const baseURL = 'http://localhost:3000'
 
@@ -13,9 +12,3 @@ export const formClient = axios.create({
         "Content-Type": 'multipart/form-data'
     }
 })
-
-export async function getUsers() {
-    const res = await httpClient.get<UserEntity[]>('user/all')
-    console.log(res.data);
-    return res.data
-}
