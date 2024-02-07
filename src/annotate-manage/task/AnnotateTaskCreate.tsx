@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { formClient } from "../../core/httpClient.ts";
 import { SelectUser } from "./components/SelectUser.tsx";
 import { AxiosError } from "axios";
-import { useCurrentUser } from "../../user/userState.ts";
+import { useCurrentProjectId, useCurrentUser } from "../../user/userState.ts";
 
 export type TaskFormData = {
     taskName: string
@@ -13,6 +13,7 @@ export type TaskFormData = {
 
 export function AnnotateTaskCreate() {
     const { userId: currentUserId } = useCurrentUser()
+    const currentProjectId = useCurrentProjectId()
     const {
         handleSubmit,
         register,
@@ -28,6 +29,7 @@ export function AnnotateTaskCreate() {
                 ...data,
                 video: data.video[0],
                 creatorId: currentUserId,
+                projectId: currentProjectId,
             })
 
             console.log(response);

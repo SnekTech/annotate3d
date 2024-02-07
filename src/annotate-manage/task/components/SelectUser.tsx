@@ -2,7 +2,7 @@ import { Control, Controller } from "react-hook-form";
 import { FormControl, FormErrorMessage, FormLabel, Select } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { TaskFormData } from "../AnnotateTaskCreate.tsx";
-import { getUsers } from "../../../api/user.ts";
+import { getUsers } from "../../../api/user.api.ts";
 
 
 export function SelectUser(props: { control: Control<TaskFormData> }) {
