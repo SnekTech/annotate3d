@@ -25,6 +25,11 @@ export function Nav() {
                     Task
                 </BreadcrumbLink>
             </BreadcrumbItem>
+            <BreadcrumbItem>
+                <BreadcrumbLink as={Link} to={'assigned-tasks'}>
+                    Assigned Tasks
+                </BreadcrumbLink>
+            </BreadcrumbItem>
         </Breadcrumb>
     );
 }
