@@ -1,7 +1,7 @@
 import { useCurrentUser } from "../../user/userState.ts";
-import { useTasksAssignedToUser } from "../../api/user.api.ts";
 import { Box, Flex } from "@chakra-ui/react";
 import { TaskCard } from "./TaskCard.tsx";
+import { useTasksAssignedToUser } from "../../api/task.api.ts";
 
 export function AssignedTasks() {
 
