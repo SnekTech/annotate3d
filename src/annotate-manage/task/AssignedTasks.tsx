@@ -1,6 +1,7 @@
 import { useCurrentUser } from "../../user/userState.ts";
 import { useTasksAssignedToUser } from "../../api/user.api.ts";
-import { List, ListItem } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
+import { TaskCard } from "./TaskCard.tsx";
 
 export function AssignedTasks() {
 
@@ -16,10 +17,13 @@ export function AssignedTasks() {
 
 
     return (
-        <List>
+        <Flex>
             {tasks.map(task => (
-                <ListItem key={task.taskId}>{task.name}</ListItem>
+                <Box key={task.taskId} marginLeft={'1em'}>
+
+                    <TaskCard task={task}/>
+                </Box>
             ))}
-        </List>
+        </Flex>
     )
 }

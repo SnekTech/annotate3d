@@ -3,11 +3,14 @@ import { BoneList } from "./UI/BoneList.tsx";
 import { Box, Button, ButtonGroup, Text } from "@chakra-ui/react";
 import { ToolCanvas } from "./ToolCanvas.tsx";
 import { useToolState } from "./ToolState.ts";
+import { useParams } from "react-router-dom";
 
 export function ToolRoot() {
 
+    const {taskId} = useParams()
+
+
     const {
-        activeBone,
         poseData, resetModelPose, setActiveBone, bones
     } = useToolState()
 
@@ -28,7 +31,7 @@ export function ToolRoot() {
             <Box maxWidth="md" height={'400px'}>
                 <ToolCanvas/>
 
-                <Text>{activeBone?.name}</Text>
+                <Text>{taskId}</Text>
 
                 <ButtonGroup variant={'outlined'} colorScheme={'blue'} isAttached={true} spacing={6}>
                     <Button onClick={handleCalculatePose}>Calc</Button>

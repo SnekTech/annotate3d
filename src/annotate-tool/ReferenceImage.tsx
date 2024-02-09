@@ -4,9 +4,10 @@ interface ReferenceImageProps {
     imagePath: string
 }
 
-export const TestFramePath = 'frames/image-003.png';
+export const TestFramePath = '/frames/image-003.png';
 
 export function ReferenceImage(props: ReferenceImageProps) {
+    console.log(props.imagePath);
 
     const image = useTexture(props.imagePath)
 

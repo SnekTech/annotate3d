@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import { ErrorPage } from "./layout/error-page.tsx";
-import { ToolRoot } from "./label-tool/ToolRoot.tsx";
 import { AnnotateProjectCreate } from "./annotate-manage/project/AnnotateProjectCreate.tsx";
 import { AnnotateTaskCreate } from "./annotate-manage/task/AnnotateTaskCreate.tsx";
 import { AssignedTasks } from "./annotate-manage/task/AssignedTasks.tsx";
+import { ToolRoot } from "./annotate-tool/ToolRoot.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
                 element: 'Home, sweet home~'
             },
             {
-                path: 'tool',
+                path: 'tool/:taskId',
                 element: <ToolRoot/>
             },
             {
