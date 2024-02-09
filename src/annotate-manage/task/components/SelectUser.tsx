@@ -1,15 +1,12 @@
 import { Control, Controller } from "react-hook-form";
 import { FormControl, FormErrorMessage, FormLabel, Select } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 import { TaskFormData } from "../AnnotateTaskCreate.tsx";
-import { getUsers } from "../../../api/user.api.ts";
+import { useAllUsers } from "../../../api/user.api.ts";
 
 
 export function SelectUser(props: { control: Control<TaskFormData> }) {
 
-    const { data: users, isPending, isError, error } = useQuery({
-        queryKey: [ 'users' ], queryFn: getUsers,
-    })
+    const {data: users, isPending, isError, error} = useAllUsers()
 
     if (isPending)
         return 'fetching users'

@@ -1,7 +1,7 @@
 import { Container, Select } from "@chakra-ui/react";
-import { useProjectsCreatedByUser } from "../api/user.api.ts";
 import { useCurrentUser, useUserStateActions } from "../user/userState.ts";
 import { ChangeEvent, useEffect } from "react";
+import { useProjectsCreatedByUser } from "../api/project.api.ts";
 
 
 export function ProjectSelect() {
