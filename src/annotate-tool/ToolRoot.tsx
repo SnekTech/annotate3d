@@ -7,6 +7,7 @@ import { useTask } from "../api/task.api.ts";
 import { useEffect } from "react";
 import { TaskEntity } from "../api/entities/task.entity.ts";
 import { FrameNavigationButton } from "./UI/FrameNavigationButton.tsx";
+import { useFrameMutation } from "../api/frame.api.ts";
 
 function useInitTargetBoneNames(task?: TaskEntity) {
     const {
@@ -29,6 +30,7 @@ export function ToolRoot() {
 
     const { taskId } = useParams()
     const { data: task, isPending, isError, error } = useTask(parseInt(taskId!))
+    const { mutate, isPending: isMutateFramePending } = useFrameMutation()
 
     const {
         poseData, targetBoneNames,
@@ -52,8 +54,11 @@ export function ToolRoot() {
         setActiveBoneName(boneName)
     }
 
-    function handleCalculatePose() {
+    function handleSavePose() {
+        if (!task) return
+
         console.log(poseData);
+        mutate({ taskId: task.taskId, frameIndex, dto: { pose: poseData } })
     }
 
 
@@ -62,9 +67,8 @@ export function ToolRoot() {
             <Box maxWidth="md" height={'400px'}>
                 <ToolCanvas task={task} frameIndex={frameIndex}/>
 
-                <ButtonGroup variant={'outlined'} colorScheme={'blue'} isAttached={true} spacing={6}>
-                    <Button onClick={handleCalculatePose}>Calc</Button>
-                    <Button>Reset Pose</Button>
+                <ButtonGroup isAttached={true} spacing={6}>
+                    <Button onClick={handleSavePose} disabled={isMutateFramePending}>保存</Button>
                 </ButtonGroup>
 
                 <FrameNavigationButton task={task}/>

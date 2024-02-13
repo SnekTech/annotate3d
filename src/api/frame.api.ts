@@ -11,10 +11,8 @@ async function getFrameFromTaskAt(taskId: number, frameIndex: number): Promise<F
     return res.data
 }
 
-
-
-async function updateFrame(frameId: number, dto: FrameDTO) {
-    await httpClient.post(`${frames}/${frameId}`, dto)
+async function updateFrame(taskId: number, frameIndex: number, dto: FrameDTO) {
+    await httpClient.post(`${frames}/${task}/${taskId}/${at}/${frameIndex}`, dto)
 }
 
 export function useFrameFromTaskAt(taskId: number, frameIndex: number) {
@@ -24,13 +22,17 @@ export function useFrameFromTaskAt(taskId: number, frameIndex: number) {
     })
 }
 
-export function useFrameMutation(frameId: number, dto: FrameDTO) {
+export function useFrameMutation() {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: () => updateFrame(frameId, dto),
+        mutationFn: ({ taskId, frameIndex, dto }: {
+            taskId: number,
+            frameIndex: number,
+            dto: FrameDTO
+        }) => updateFrame(taskId, frameIndex, dto),
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: [frames]
+                queryKey: [ frames, task ]
             }).then(() => console.log('mutate frames'))
         }
     })
