@@ -1,6 +1,6 @@
 import { httpClient } from "../core/httpClient.ts";
 import { FrameDTO, FrameEntity } from "./entities/frame.entity.ts";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const frames = 'frames'
 const task = 'task'
@@ -21,5 +21,17 @@ export function useFrameFromTaskAt(taskId: number, frameIndex: number) {
     return useQuery({
         queryKey: [ frames, task, taskId, at, frameIndex ],
         queryFn: () => getFrameFromTaskAt(taskId, frameIndex)
+    })
+}
+
+export function useFrameMutation(frameId: number, dto: FrameDTO) {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: () => updateFrame(frameId, dto),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [frames]
+            }).then(() => console.log('mutate frames'))
+        }
     })
 }
