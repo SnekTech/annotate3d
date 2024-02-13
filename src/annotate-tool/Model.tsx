@@ -62,6 +62,8 @@ export function Model({ defaultPose }: ModelProps) {
     })
 
     function handleTransformChange() {
+        if (!rootBoneRef.current) return
+
         const targetBones: Object3D[] = []
         for (const boneName of targetBoneNames) {
             const bone = rootBoneRef.current.getObjectByName(boneName)

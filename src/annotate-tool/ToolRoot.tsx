@@ -60,7 +60,7 @@ export function ToolRoot() {
     return (
         <>
             <Box maxWidth="md" height={'400px'}>
-                <ToolCanvas taskId={task.taskId} frameIndex={frameIndex}/>
+                <ToolCanvas task={task} frameIndex={frameIndex}/>
 
                 <ButtonGroup variant={'outlined'} colorScheme={'blue'} isAttached={true} spacing={6}>
                     <Button onClick={handleCalculatePose}>Calc</Button>

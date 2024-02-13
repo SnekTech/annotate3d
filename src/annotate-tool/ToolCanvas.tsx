@@ -6,25 +6,26 @@ import { FramePrefix, ImgExtension, ReferenceImage } from "./ReferenceImage.tsx"
 import { useFrameFromTaskAt } from "../api/frame.api.ts";
 import { baseURL } from "../core/httpClient.ts";
 import numeral from "numeral";
+import { TaskEntity } from "../api/entities/task.entity.ts";
 
 interface ToolCanvasProps {
-    taskId: number
+    task: TaskEntity
     frameIndex: number
 }
 
-export function ToolCanvas({ taskId, frameIndex }: ToolCanvasProps) {
+export function ToolCanvas({ task, frameIndex }: ToolCanvasProps) {
 
-    const { data: frame, isPending, isError } = useFrameFromTaskAt(taskId, frameIndex)
+    const { data: frame, isPending, isError } = useFrameFromTaskAt(task.taskId, frameIndex)
 
     if (isPending) {
-        return <span>loading frame #{frameIndex}</span>
+        return <span>loading frame {frameIndex}</span>
     }
     if (isError) {
         return <span>error on frame {frameIndex}</span>
     }
 
-    const projectName = frame.task.project.name
-    const taskName = frame.task.name
+    const projectName = task.project.name
+    const taskName = task.name
     const refImagePath = `${baseURL}/public/annotate-projects/${projectName}/${taskName}/${FramePrefix}_${numeral(frameIndex + 1).format('000')}${ImgExtension}`
 
     return (

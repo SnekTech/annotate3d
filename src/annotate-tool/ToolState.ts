@@ -1,16 +1,12 @@
-import { Bone } from "three";
 import { ModelPaths, Pose } from "../core/ModelUtils.ts";
 import { create } from "zustand";
 
-
 interface State {
-    originalPoseData?: Pose
+    modelPath: string // todo: use real URL, later...
+
     poseData?: Pose
-    bones: Bone[]
     targetBoneNames: string[]
     activeBoneName?: string
-    activeBone?: Bone
-    modelPath: string
     frameIndex: number
     actions: {
         setFrameIndex(index: number): void,
@@ -24,7 +20,6 @@ export const useToolState = create<State>()(set => {
 
     return {
         modelPath: ModelPaths.SMPL,
-        bones: [],
         targetBoneNames: [],
         frameIndex: 0,
 
