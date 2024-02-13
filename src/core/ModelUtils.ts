@@ -1,5 +1,5 @@
 import { useGLTF } from "@react-three/drei";
-import { Bone, Quaternion } from "three";
+import { Object3D, Quaternion } from "three";
 
 
 export type MyQuaternion = [ x: number, y: number, z: number, w: number ]
@@ -14,20 +14,13 @@ export function toQuaternion(q: MyQuaternion): Quaternion {
     return new Quaternion(x, y, z, w)
 }
 
-export function getPose(bones: Bone[]): Pose {
+export function getPose(bones: Object3D[]): Pose {
     const pose: Pose = {}
     bones.forEach(bone => {
         const quaternion = bone.quaternion
         pose[bone.name] = toMyQuaternion(quaternion)
     })
     return pose
-}
-
-export function updatePose(bones: Bone[], newPose: Pose) {
-    bones.forEach(bone => {
-        const q = newPose[bone.name]
-        bone.setRotationFromQuaternion(toQuaternion(q))
-    })
 }
 
 export const ModelPaths = {
@@ -38,8 +31,3 @@ export const ModelPaths = {
 
 export const SMPL_Key = 'SMPL-mesh-male';
 useGLTF.preload(ModelPaths.SMPL)
-
-export function getBonesString(bones: Bone[]) {
-    const boneNames = bones.map(bone => bone.name)
-    return boneNames.join(',')
-}
