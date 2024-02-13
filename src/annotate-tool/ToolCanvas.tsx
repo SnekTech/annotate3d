@@ -1,22 +1,25 @@
 import { Canvas } from "@react-three/fiber";
-import { GizmoHelper, GizmoViewport, OrbitControls, TransformControls } from "@react-three/drei";
+import { GizmoHelper, GizmoViewport, OrbitControls } from "@react-three/drei";
 import { Model } from "./Model.tsx";
-import { useToolState } from "./ToolState.ts";
-import { getPose } from "../core/ModelUtils.ts";
 import { Box } from "@chakra-ui/react";
 import { ReferenceImage, TestFramePath } from "./ReferenceImage.tsx";
+import { useFrameFromTaskAt } from "../api/frame.api.ts";
 
-export function ToolCanvas() {
+interface ToolCanvasProps {
+    taskId: number
+    frameIndex: number
+}
 
-    const {
-        activeBone,
-        setPoseData,
-        bones,
-    } = useToolState()
+export function ToolCanvas({ taskId, frameIndex }: ToolCanvasProps) {
 
-    function handlePoseChange() {
-        const newPose = getPose(bones)
-        setPoseData(newPose)
+
+    const { data: frame, isPending, isError } = useFrameFromTaskAt(taskId, frameIndex)
+
+    if (isPending) {
+        return <span>loading frame #{frameIndex}</span>
+    }
+    if (isError) {
+        return <span>error on frame {frameIndex}</span>
     }
 
     return (
@@ -28,13 +31,7 @@ export function ToolCanvas() {
 
                 <ReferenceImage imagePath={TestFramePath}/>
 
-                <Model/>
-
-                <TransformControls
-                    object={activeBone}
-                    mode={'rotate'}
-                    onChange={handlePoseChange}
-                />
+                <Model defaultPose={frame.pose}/>
 
                 <GizmoHelper>
                     <GizmoViewport/>

@@ -1,5 +1,5 @@
 import { Bone } from "three";
-import { ModelPaths, Pose, updatePose } from "../core/ModelUtils.ts";
+import { ModelPaths, Pose } from "../core/ModelUtils.ts";
 import { create } from "zustand";
 
 
@@ -7,56 +7,40 @@ interface State {
     originalPoseData?: Pose
     poseData?: Pose
     bones: Bone[]
+    targetBoneNames: string[]
+    activeBoneName?: string
     activeBone?: Bone
     modelPath: string
+    frameIndex: number
+    actions: {
+        setFrameIndex(index: number): void,
+        setTargetBoneNames(boneNames: string[]): void,
+        setActiveBoneName(boneName: string): void,
+        setPoseData(newPose: Pose): void,
+    }
 }
 
-interface Action {
-    setOriginalPoseData(pose: Pose): void
-
-    setPoseData(newPose: Pose): void
-
-    updateModelPose(pose: Pose): void
-
-    resetModelPose(): void
-
-    setBones(bones: Bone[]): void
-
-    setActiveBone(bone: Bone): void
-}
-
-export const useToolState = create<State & Action>()(set => {
+export const useToolState = create<State>()(set => {
 
     return {
         modelPath: ModelPaths.SMPL,
         bones: [],
+        targetBoneNames: [],
+        frameIndex: 0,
 
-        setOriginalPoseData(pose: Pose) {
-            set({ originalPoseData: pose })
-        },
-        setPoseData(newPose: Pose) {
-            set({ poseData: newPose })
-        },
-        updateModelPose(pose: Pose) {
-            set(state => {
-                updatePose(state.bones, pose)
-                return {}
-            })
-        },
-        resetModelPose() {
-            set(state => {
-                const originalPoseData = state.originalPoseData
-                if (!originalPoseData) return {}
-
-                updatePose(state.bones, originalPoseData)
-                return {}
-            })
-        },
-        setBones(bones: Bone[]) {
-            set({ bones })
-        },
-        setActiveBone(bone: Bone) {
-            set({ activeBone: bone })
+        actions: {
+            setFrameIndex(index: number) {
+                set({ frameIndex: index })
+            },
+            setTargetBoneNames(boneNames: string[]) {
+                set({ targetBoneNames: boneNames })
+            },
+            setActiveBoneName(boneName: string) {
+                set({activeBoneName: boneName})
+            },
+            setPoseData(newPose: Pose) {
+                set({ poseData: newPose })
+            },
         },
     }
 })
