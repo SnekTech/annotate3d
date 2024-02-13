@@ -2,8 +2,10 @@ import { Canvas } from "@react-three/fiber";
 import { GizmoHelper, GizmoViewport, OrbitControls } from "@react-three/drei";
 import { Model } from "./Model.tsx";
 import { Box } from "@chakra-ui/react";
-import { ReferenceImage, TestFramePath } from "./ReferenceImage.tsx";
+import { FramePrefix, ImgExtension, ReferenceImage } from "./ReferenceImage.tsx";
 import { useFrameFromTaskAt } from "../api/frame.api.ts";
+import { baseURL } from "../core/httpClient.ts";
+import numeral from "numeral";
 
 interface ToolCanvasProps {
     taskId: number
@@ -11,7 +13,6 @@ interface ToolCanvasProps {
 }
 
 export function ToolCanvas({ taskId, frameIndex }: ToolCanvasProps) {
-
 
     const { data: frame, isPending, isError } = useFrameFromTaskAt(taskId, frameIndex)
 
@@ -22,6 +23,10 @@ export function ToolCanvas({ taskId, frameIndex }: ToolCanvasProps) {
         return <span>error on frame {frameIndex}</span>
     }
 
+    const projectName = frame.task.project.name
+    const taskName = frame.task.name
+    const refImagePath = `${baseURL}/public/annotate-projects/${projectName}/${taskName}/${FramePrefix}_${numeral(frameIndex + 1).format('000')}${ImgExtension}`
+
     return (
         <Box width={600} height={800} bgColor={'lightgray'}>
             <Canvas>
@@ -29,7 +34,7 @@ export function ToolCanvas({ taskId, frameIndex }: ToolCanvasProps) {
                 <directionalLight color={"white"} position={[ 0, 0, 5 ]}/>
                 <OrbitControls makeDefault/>
 
-                <ReferenceImage imagePath={TestFramePath}/>
+                <ReferenceImage imagePath={refImagePath}/>
 
                 <Model defaultPose={frame.pose}/>
 

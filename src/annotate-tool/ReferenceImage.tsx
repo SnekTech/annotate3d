@@ -1,14 +1,17 @@
 import { useTexture } from "@react-three/drei";
 
 interface ReferenceImageProps {
-    imagePath: string
+    imagePath?: string
 }
 
 export const TestFramePath = '/frames/image-003.png';
 
-export function ReferenceImage(props: ReferenceImageProps) {
+export const FramePrefix = 'frame'
+export const ImgExtension = '.png'
 
-    const image = useTexture(props.imagePath)
+export function ReferenceImage({ imagePath }: ReferenceImageProps) {
+
+    const image = useTexture(imagePath || TestFramePath)
 
     return (
         <mesh scale={80} position-z={-100}>
