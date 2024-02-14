@@ -1,7 +1,7 @@
 import { TransformControls, useGLTF, useHelper } from "@react-three/drei";
 import { Object3D, SkeletonHelper, SkinnedMesh } from "three";
 import { Suspense, useEffect, useRef } from "react";
-import { useToolState } from "./ToolState.ts";
+import { useActiveBoneName, useModelPath, useTargetBoneNames, useToolStateActions } from "./ToolState.ts";
 import { getPose, Pose, SMPL_Key, toQuaternion } from "../core/ModelUtils.ts";
 import { useControls } from "leva";
 
@@ -10,15 +10,11 @@ interface ModelProps {
 }
 
 function useDefaultPose(rootObj: Object3D, pose: Pose) {
-    const {
-        actions: {
-            setPoseData
-        }
-    } = useToolState()
-    
+    const { setPoseData } = useToolStateActions()
+
     useEffect(() => {
         setPoseData(pose)
-        
+
         if (!rootObj) return
 
         for (const boneName in pose) {
@@ -28,18 +24,14 @@ function useDefaultPose(rootObj: Object3D, pose: Pose) {
             }
         }
 
-    }, [pose, rootObj, setPoseData])
+    }, [ pose, rootObj, setPoseData ])
 }
 
 export function Model({ defaultPose }: ModelProps) {
-    const {
-        modelPath,
-        activeBoneName,
-        targetBoneNames,
-        actions: {
-            setPoseData
-        }
-    } = useToolState()
+    const modelPath = useModelPath()
+    const activeBoneName = useActiveBoneName()
+    const targetBoneNames = useTargetBoneNames()
+    const { setPoseData } = useToolStateActions()
 
     const gltfData = useGLTF(modelPath)
     const { nodes } = gltfData

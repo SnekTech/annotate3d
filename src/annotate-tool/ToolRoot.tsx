@@ -1,7 +1,7 @@
 import { BoneList } from "./UI/BoneList.tsx";
 import { Box, Button, ButtonGroup } from "@chakra-ui/react";
 import { ToolCanvas } from "./ToolCanvas.tsx";
-import { useToolState } from "./ToolState.ts";
+import { useFrameIndex, usePoseData, useTargetBoneNames, useToolStateActions } from "./ToolState.ts";
 import { useParams } from "react-router-dom";
 import { useTask } from "../api/task.api.ts";
 import { useEffect } from "react";
@@ -10,12 +10,7 @@ import { FrameNavigationButton } from "./UI/FrameNavigationButton.tsx";
 import { useFrameMutation } from "../api/frame.api.ts";
 
 function useInitTargetBoneNames(task?: TaskEntity) {
-    const {
-        actions: {
-            setTargetBoneNames,
-            setActiveBoneName
-        }
-    } = useToolState()
+    const { setTargetBoneNames, setActiveBoneName } = useToolStateActions()
 
     useEffect(() => {
         if (task) {
@@ -32,13 +27,10 @@ export function ToolRoot() {
     const { data: task, isPending, isError, error } = useTask(parseInt(taskId!))
     const { mutate, isPending: isMutateFramePending } = useFrameMutation()
 
-    const {
-        poseData, targetBoneNames,
-        frameIndex,
-        actions: {
-            setActiveBoneName
-        }
-    } = useToolState()
+    const poseData = usePoseData()
+    const targetBoneNames = useTargetBoneNames()
+    const frameIndex = useFrameIndex()
+    const { setActiveBoneName } = useToolStateActions()
 
     useInitTargetBoneNames(task)
 
@@ -60,7 +52,6 @@ export function ToolRoot() {
         console.log(poseData);
         mutate({ taskId: task.taskId, frameIndex, dto: { pose: poseData } })
     }
-
 
     return (
         <>

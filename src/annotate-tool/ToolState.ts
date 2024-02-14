@@ -16,8 +16,7 @@ interface State {
     }
 }
 
-export const useToolState = create<State>()(set => {
-
+const useToolState = create<State>()(set => {
     return {
         modelPath: ModelPaths.SMPL,
         targetBoneNames: [],
@@ -31,7 +30,7 @@ export const useToolState = create<State>()(set => {
                 set({ targetBoneNames: boneNames })
             },
             setActiveBoneName(boneName: string) {
-                set({activeBoneName: boneName})
+                set({ activeBoneName: boneName })
             },
             setPoseData(newPose: Pose) {
                 set({ poseData: newPose })
@@ -39,3 +38,10 @@ export const useToolState = create<State>()(set => {
         },
     }
 })
+
+export const useModelPath = () => useToolState(state => state.modelPath)
+export const usePoseData = () => useToolState(state => state.poseData)
+export const useTargetBoneNames = () => useToolState(state => state.targetBoneNames)
+export const useActiveBoneName = () => useToolState(state => state.activeBoneName)
+export const useFrameIndex = () => useToolState(state => state.frameIndex)
+export const useToolStateActions = () => useToolState(state => state.actions)

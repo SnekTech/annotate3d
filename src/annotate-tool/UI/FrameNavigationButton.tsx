@@ -1,7 +1,7 @@
 import { TaskEntity } from "../../api/entities/task.entity.ts";
 import { Button, ButtonGroup, IconButton } from "@chakra-ui/react";
 import { useTaskFrameCount } from "../../api/task.api.ts";
-import { useToolState } from "../ToolState.ts";
+import { useFrameIndex, useToolStateActions } from "../ToolState.ts";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
 
 interface FrameNavigationButtonProps {
@@ -10,7 +10,8 @@ interface FrameNavigationButtonProps {
 
 export function FrameNavigationButton({ task }: FrameNavigationButtonProps) {
     const { data: frameCount, isPending, isError } = useTaskFrameCount(task.taskId)
-    const {frameIndex, actions: {setFrameIndex}} = useToolState()
+    const frameIndex = useFrameIndex()
+    const { setFrameIndex } = useToolStateActions()
 
     if (isPending) {
         return <span>Counting frames in task {task.taskId} ...</span>
@@ -22,6 +23,7 @@ export function FrameNavigationButton({ task }: FrameNavigationButtonProps) {
     function skipPreviousFrame(totalFrameCount: number) {
         setFrameIndex(frameIndex == 0 ? totalFrameCount - 1 : frameIndex - 1)
     }
+
     function skipNextFrame(totalFrameCount: number) {
         setFrameIndex((frameIndex + 1) % totalFrameCount)
     }
