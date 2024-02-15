@@ -2,7 +2,7 @@ import { TaskEntity } from "../../api/entities/task.entity.ts";
 import { Button, ButtonGroup, IconButton } from "@chakra-ui/react";
 import { useTaskFrameCount } from "../../api/task.api.ts";
 import { useFrameIndex, useToolStateActions } from "../ToolState.ts";
-import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
+import { MdFirstPage, MdLastPage, MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 
 interface FrameNavigationButtonProps {
     task: TaskEntity
@@ -31,15 +31,25 @@ export function FrameNavigationButtonGroup({ task }: FrameNavigationButtonProps)
     return (
         <ButtonGroup isAttached={true}>
             <IconButton
+                aria-label={'first'}
+                icon={<MdFirstPage/>}
+                onClick={() => setFrameIndex(0)}
+            />
+            <IconButton
                 aria-label={'prev'}
-                icon={<MdSkipPrevious/>}
+                icon={<MdNavigateBefore/>}
                 onClick={() => skipPreviousFrame(frameCount)}
             />
             <Button disabled={true}>当前帧：{frameIndex}</Button>
             <IconButton
                 aria-label={'next'}
-                icon={<MdSkipNext/>}
+                icon={<MdNavigateNext/>}
                 onClick={() => skipNextFrame(frameCount)}
+            />
+            <IconButton
+                aria-label={'first'}
+                icon={<MdLastPage/>}
+                onClick={() => setFrameIndex(frameCount - 1)}
             />
         </ButtonGroup>
     )
