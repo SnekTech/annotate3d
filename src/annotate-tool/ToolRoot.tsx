@@ -1,7 +1,7 @@
-import { BoneList } from "./UI/BoneList.tsx";
+import { BonesTable } from "./UI/BonesTable.tsx";
 import { Box, Button, ButtonGroup } from "@chakra-ui/react";
 import { ToolCanvas } from "./ToolCanvas.tsx";
-import { useFrameIndex, usePoseData, useTargetBoneNames, useToolStateActions } from "./ToolState.ts";
+import { useFrameIndex, usePoseData, useToolStateActions } from "./ToolState.ts";
 import { useParams } from "react-router-dom";
 import { useTask } from "../api/task.api.ts";
 import { useEffect } from "react";
@@ -28,9 +28,7 @@ export function ToolRoot() {
     const { mutate, isPending: isMutateFramePending } = useFrameMutation()
 
     const poseData = usePoseData()
-    const targetBoneNames = useTargetBoneNames()
     const frameIndex = useFrameIndex()
-    const { setActiveBoneName } = useToolStateActions()
 
     useInitTargetBoneNames(task)
 
@@ -40,10 +38,6 @@ export function ToolRoot() {
     }
     if (isError) {
         return <span>An error occurred when fetching task {taskId}, {error.message}</span>
-    }
-
-    const handleChooseBone = (boneName: string) => {
-        setActiveBoneName(boneName)
     }
 
     function handleSavePose() {
@@ -64,7 +58,7 @@ export function ToolRoot() {
 
                 <FrameNavigationButton task={task}/>
 
-                <BoneList boneNames={targetBoneNames} onChoose={handleChooseBone}/>
+                <BonesTable/>
             </Box>
         </>
     )
