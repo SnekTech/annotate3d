@@ -1,13 +1,14 @@
 import { BonesTable } from "./UI/BonesTable.tsx";
-import { Box, Button, ButtonGroup } from "@chakra-ui/react";
+import { Button, ButtonGroup, Center, Flex, IconButton, Stack } from "@chakra-ui/react";
 import { ToolCanvas } from "./ToolCanvas.tsx";
 import { useFrameIndex, usePoseData, useToolStateActions } from "./ToolState.ts";
 import { useParams } from "react-router-dom";
 import { useTask } from "../api/task.api.ts";
 import { useEffect } from "react";
 import { TaskEntity } from "../api/entities/task.entity.ts";
-import { FrameNavigationButton } from "./UI/FrameNavigationButton.tsx";
+import { FrameNavigationButtonGroup } from "./UI/FrameNavigationButtonGroup.tsx";
 import { useFrameMutation } from "../api/frame.api.ts";
+import { MdRedo, MdUndo } from "react-icons/md";
 
 function useInitTargetBoneNames(task?: TaskEntity) {
     const { setTargetBoneNames, setActiveBoneName } = useToolStateActions()
@@ -22,7 +23,6 @@ function useInitTargetBoneNames(task?: TaskEntity) {
 }
 
 export function ToolRoot() {
-
     const { taskId } = useParams()
     const { data: task, isPending, isError, error } = useTask(parseInt(taskId!))
     const { mutate, isPending: isMutateFramePending } = useFrameMutation()
@@ -31,7 +31,6 @@ export function ToolRoot() {
     const frameIndex = useFrameIndex()
 
     useInitTargetBoneNames(task)
-
 
     if (isPending) {
         return <span>Fetching task {taskId} ...</span>
@@ -48,18 +47,24 @@ export function ToolRoot() {
     }
 
     return (
-        <>
-            <Box maxWidth="md" height={'400px'}>
-                <ToolCanvas task={task} frameIndex={frameIndex}/>
+        <Center>
+            <Flex>
+                <Stack>
+                    <ToolCanvas task={task} frameIndex={frameIndex}/>
 
-                <ButtonGroup isAttached={true} spacing={6}>
-                    <Button onClick={handleSavePose} disabled={isMutateFramePending}>保存</Button>
-                </ButtonGroup>
-
-                <FrameNavigationButton task={task}/>
+                    <Flex>
+                        <FrameNavigationButtonGroup task={task}/>
+                        <ButtonGroup marginLeft={'auto'} isAttached={true}>
+                            <IconButton aria-label={'undo'} icon={<MdUndo/>}/>
+                            <IconButton aria-label={'redo'} icon={<MdRedo/>}/>
+                            <Button>重置</Button>
+                            <Button onClick={handleSavePose} disabled={isMutateFramePending}>保存</Button>
+                        </ButtonGroup>
+                    </Flex>
+                </Stack>
 
                 <BonesTable/>
-            </Box>
-        </>
+            </Flex>
+        </Center>
     )
 }

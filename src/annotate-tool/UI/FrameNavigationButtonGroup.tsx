@@ -8,7 +8,7 @@ interface FrameNavigationButtonProps {
     task: TaskEntity
 }
 
-export function FrameNavigationButton({ task }: FrameNavigationButtonProps) {
+export function FrameNavigationButtonGroup({ task }: FrameNavigationButtonProps) {
     const { data: frameCount, isPending, isError } = useTaskFrameCount(task.taskId)
     const frameIndex = useFrameIndex()
     const { setFrameIndex } = useToolStateActions()
@@ -35,7 +35,7 @@ export function FrameNavigationButton({ task }: FrameNavigationButtonProps) {
                 icon={<MdSkipPrevious/>}
                 onClick={() => skipPreviousFrame(frameCount)}
             />
-            <Button disabled={true}>{frameIndex}</Button>
+            <Button disabled={true}>当前帧：{frameIndex}</Button>
             <IconButton
                 aria-label={'next'}
                 icon={<MdSkipNext/>}

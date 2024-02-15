@@ -13,7 +13,7 @@ function App() {
 
             <Nav/>
 
-            <Container maxW={'lg'}>
+            <Container maxW={'1200px'}>
                 <Outlet/>
             </Container>
         </QueryClientProvider>

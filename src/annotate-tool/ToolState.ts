@@ -30,6 +30,7 @@ const useToolState = create<State>()(set => {
                 set({ targetBoneNames: boneNames })
             },
             setActiveBoneName(boneName: string) {
+                console.log('set active bone')
                 set({ activeBoneName: boneName })
             },
             setPoseData(newPose: Pose) {

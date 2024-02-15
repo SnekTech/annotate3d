@@ -1,4 +1,4 @@
-import { Button, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Button, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { useTargetBoneNames, useToolStateActions } from "../ToolState.ts";
@@ -13,7 +13,9 @@ function useBonesTableConfig() {
     const { setActiveBoneName } = useToolStateActions()
     const boneNames = useTargetBoneNames()
 
-    const data: BoneRow[] = boneNames.map(boneName => ({ boneName }))
+    const data: BoneRow[] = useMemo(() => {
+        return boneNames.map(boneName => ({ boneName }))
+    }, [])
 
     const columns = useMemo(() => ([
         columnHelper.accessor('boneName', {
@@ -40,29 +42,31 @@ export function BonesTable() {
     const table = useBonesTableConfig()
 
     return (
-        <Table>
-            <Thead>
-                {table.getHeaderGroups().map(headerGroup => (
-                    <Tr key={headerGroup.id}>
-                        {headerGroup.headers.map(header => (
-                            <Th key={header.id}>
-                                {flexRender(header.column.columnDef.header, header.getContext())}
-                            </Th>
-                        ))}
-                    </Tr>
-                ))}
-            </Thead>
-            <Tbody>
-                {table.getRowModel().rows.map(row => (
-                    <Tr key={row.id}>
-                        {row.getVisibleCells().map(cell => (
-                            <Td key={cell.id}>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </Td>
-                        ))}
-                    </Tr>
-                ))}
-            </Tbody>
-        </Table>
+        <TableContainer>
+            <Table>
+                <Thead>
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <Tr key={headerGroup.id}>
+                            {headerGroup.headers.map(header => (
+                                <Th key={header.id}>
+                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                </Th>
+                            ))}
+                        </Tr>
+                    ))}
+                </Thead>
+                <Tbody>
+                    {table.getRowModel().rows.map(row => (
+                        <Tr key={row.id}>
+                            {row.getVisibleCells().map(cell => (
+                                <Td key={cell.id}>
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </Td>
+                            ))}
+                        </Tr>
+                    ))}
+                </Tbody>
+            </Table>
+        </TableContainer>
     )
 }
