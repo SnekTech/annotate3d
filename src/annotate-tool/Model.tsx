@@ -23,7 +23,6 @@ function useDefaultPose(rootObj: Object3D, pose: Pose) {
                 bone.setRotationFromQuaternion(toQuaternion(pose[boneName]))
             }
         }
-
     }, [ pose, rootObj, setPoseData ])
 }
 
@@ -44,12 +43,24 @@ export function Model({ defaultPose }: ModelProps) {
 
     useDefaultPose(rootBoneRef.current, defaultPose || {})
 
-    const { modelColor, opacity } = useControls({
-        modelColor: '#f00',
+    const { modelColor, opacity, pos: { x, y, z } } = useControls({
+        modelColor: {
+            value: '#00f',
+            label: '模型颜色'
+        },
         opacity: {
             min: 0,
             max: 1,
             value: 0.7,
+            label: '透明度'
+        },
+        pos: {
+            value: {
+                x: 0,
+                y: 0,
+                z: 1.6,
+            },
+            label: '根节点坐标'
         }
     })
 
@@ -72,7 +83,7 @@ export function Model({ defaultPose }: ModelProps) {
     return (
         <>
             <Suspense fallback={'model fallback'}>
-                <group>
+                <group position={[ x, y, z ]}>
                     <skinnedMesh
                         name={SMPL_Key}
                         geometry={geometry}
